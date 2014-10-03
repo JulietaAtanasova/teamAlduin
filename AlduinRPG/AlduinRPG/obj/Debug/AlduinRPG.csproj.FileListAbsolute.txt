@@ -1,0 +1,7 @@
+E:\SoftUni\OOP\C#OOP\AlduinRPG\AlduinRPG\bin\Debug\AlduinRPG.exe
+E:\SoftUni\OOP\C#OOP\AlduinRPG\AlduinRPG\bin\Debug\AlduinRPG.pdb
+E:\SoftUni\OOP\C#OOP\AlduinRPG\AlduinRPG\obj\Debug\AlduinRPG.csprojResolveAssemblyReference.cache
+E:\SoftUni\OOP\C#OOP\AlduinRPG\AlduinRPG\obj\Debug\AlduinRPG.exe
+E:\SoftUni\OOP\C#OOP\AlduinRPG\AlduinRPG\obj\Debug\AlduinRPG.pdb
+C:\Users\Georgi\Desktop\AlduinRPG\AlduinRPG\obj\Debug\AlduinRPG.exe
+C:\Users\Georgi\Desktop\AlduinRPG\AlduinRPG\obj\Debug\AlduinRPG.pdb
