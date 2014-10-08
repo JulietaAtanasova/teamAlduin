@@ -1,12 +1,17 @@
-﻿namespace AlduinRPG.Models
+﻿using System;
+
+namespace AlduinRPG.Models
 {
     public class Coordinates
     {
-        private int topLeftX;
-        private int topLeftY;
-        private int bottomRightX;
-        private int bottomRightY;
+        public Coordinates(int x, int y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
 
-        // TODO properties and constructor
+        public int X { get; set; }
+        public int Y { get; set; }
+
     }
 }

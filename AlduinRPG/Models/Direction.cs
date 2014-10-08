@@ -2,6 +2,9 @@
 {
     public enum Direction
     {
-        // TODO directions (north, east, etc.)
+        Up,
+        Right,
+        Down,
+        Left
     }
 }

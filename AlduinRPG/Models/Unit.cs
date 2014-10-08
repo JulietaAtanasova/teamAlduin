@@ -2,10 +2,11 @@
 {
     public abstract class Unit
     {
-        // TODO Coordinates
-        // TODO width
-        // TODO height
-        
-        // TODO constructor 
+        protected Unit(Coordinates coordinates)
+        {
+            this.Coordinates = coordinates;
+        }
+
+        public Coordinates Coordinates { get; set; } 
     }
 }

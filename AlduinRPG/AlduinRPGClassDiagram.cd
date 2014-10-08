@@ -24,16 +24,17 @@
   <Class Name="AlduinRPG.Models.Coordinates" Collapsed="true">
     <Position X="14.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAACAAAIAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAYAA=</HashCode>
       <FileName>Models\Coordinates.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AlduinRPG.Models.Creature" Collapsed="true">
-    <Position X="2.75" Y="1.75" Width="1.5" />
+  <Class Name="AlduinRPG.Models.LivingUnit" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Creature.cs</FileName>
+      <HashCode>AAAASIAAAIAACAAAACAAAACAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Models\LivingUnit.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="AlduinRPG.Models.Enemy" Collapsed="true">
     <Position X="1.5" Y="3.25" Width="1.5" />
@@ -63,15 +64,15 @@
       <FileName>Models\Obstacle.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AlduinRPG.Models.SimpleHero" Collapsed="true">
+  <Class Name="AlduinRPG.Models.Warrior" Collapsed="true">
     <Position X="5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\SimpleHero.cs</FileName>
+      <FileName>Models\Warrior.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AlduinRPG.Models.StaticUnit" Collapsed="true">
-    <Position X="9.5" Y="1.75" Width="1.5" />
+    <Position X="8" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\StaticUnit.cs</FileName>
@@ -87,7 +88,7 @@
   <Class Name="AlduinRPG.Models.Unit" Collapsed="true">
     <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Unit.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -108,7 +109,7 @@
   <Enum Name="AlduinRPG.Models.Direction" Collapsed="true">
     <Position X="14.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAI=</HashCode>
       <FileName>Models\Direction.cs</FileName>
     </TypeIdentifier>
   </Enum>

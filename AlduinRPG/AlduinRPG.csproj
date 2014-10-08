@@ -41,17 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAttackable.cs" />
     <Compile Include="Models\Bonus.cs" />
     <Compile Include="Models\BossEnemy.cs" />
     <Compile Include="Models\Chest.cs" />
     <Compile Include="Models\Coordinates.cs" />
-    <Compile Include="Models\Creature.cs" />
+    <Compile Include="Models\IMovable.cs" />
+    <Compile Include="Models\IResurrectable.cs" />
+    <Compile Include="Models\LivingUnit.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Enemy.cs" />
+    <Compile Include="Models\Magician.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Hero.cs" />
     <Compile Include="Models\Obstacle.cs" />
-    <Compile Include="Models\SimpleHero.cs" />
+    <Compile Include="Models\Warrior.cs" />
     <Compile Include="Models\StaticUnit.cs" />
     <Compile Include="Models\Teleport.cs" />
     <Compile Include="Models\Unit.cs" />
