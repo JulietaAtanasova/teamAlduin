@@ -1,7 +1,11 @@
 ﻿namespace AlduinRPG.Models
 {
-    public class Teleportation : Bonus
+    public class Teleportation : StaticUnit
     {
+        public Teleportation(Coordinates coordinates) : base(coordinates)
+        {
+        }
+
         // TODO Teleport()
     }
 }

@@ -4,18 +4,13 @@
     {
         public const int MaxLives = 3; // ?????
 
-        // TODO constructor;
-
-        public int CastMagic()
+        public Hero(Coordinates coordinates, int maxHealth, int attackStrength, int level, 
+            int maxMana, int experience, int lives, int recoverySpeedHealth, int recoverySpeedMana)
+            : base(coordinates, maxHealth, attackStrength, level)
         {
-            return 0;
-        }
-
-        public Hero(Coordinates coordinates, int maxHealth, int health, int attackStrength, int level, Direction direction, int maxMana, int mana, int experience, int lives, int recoverySpeedHealth, int recoverySpeedMana)
-            : base(coordinates, maxHealth, health, attackStrength, level, direction)
-        {
+            this.CurrentMana = maxMana;
             this.MaxMana = maxMana;
-            this.Mana = mana;
+            this.CurrentHealth = maxHealth;
             this.Experience = experience;
             this.Lives = lives;
             this.RecoverySpeedHealth = recoverySpeedHealth;
@@ -24,7 +19,7 @@
 
         public int MaxMana { get; set; }
 
-        public int Mana { get; set; }
+        public int CurrentMana { get; set; }
 
         public int Experience { get; set; }
 
@@ -36,17 +31,22 @@
 
         public void TakeChest()
         {
-
+            // TODO
         }
 
         public void RecoverMana()
         {
-
+            // TODO
         }
 
         public void RecoverHealth()
         {
+            // TODO
+        }
 
+        public void CastMagic()
+        {
+            // TODO
         }
     }
 }

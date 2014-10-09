@@ -2,18 +2,17 @@
 {
     public abstract class LivingUnit : Unit, IAttackable, IMovable, IResurrectable
     {
-        protected LivingUnit(Coordinates coordinates, int maxHealth, int health, int attackStrength, int level, Direction direction)
+        protected LivingUnit(Coordinates coordinates, int maxHealth, int attackStrength, int level)
             : base(coordinates)
         {
             this.MaxHealth = maxHealth;
-            this.Health = health;
+            this.CurrentHealth = maxHealth;
             this.AttackStrength = attackStrength;
             this.Level = level;
-            this.Direction = direction;
         }
 
         public int MaxHealth { get; set; }
-        public int Health { get; set; }
+        public int CurrentHealth { get; set; }
         public int AttackStrength { get; set; }
         public int Level { get; set; }
         public Direction Direction { get; set; }

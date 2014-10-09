@@ -1,6 +1,8 @@
-﻿namespace AlduinRPG.Models
+﻿using AlduinRPG.Interfaces;
+
+namespace AlduinRPG.Models
 {
-    public abstract class Unit
+    public abstract class Unit : IUnit
     {
         protected Unit(Coordinates coordinates)
         {

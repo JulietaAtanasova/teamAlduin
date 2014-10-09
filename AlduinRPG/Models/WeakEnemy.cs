@@ -2,6 +2,10 @@
 {
     public class WeakEnemy : Enemy
     {
-        //TODO constructor inherits enemy constructor
+        // TODO constants health, attack, etc.
+        public WeakEnemy(Coordinates coordinates, int maxHealth, int attackStrength, int level)
+            : base(coordinates, maxHealth, attackStrength, level)
+        {
+        }
     }
 }

@@ -41,13 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAttackable.cs" />
+    <Compile Include="Interfaces\IAttackable.cs" />
+    <Compile Include="Interfaces\IUnit.cs" />
     <Compile Include="Models\Bonus.cs" />
     <Compile Include="Models\BossEnemy.cs" />
     <Compile Include="Models\Chest.cs" />
     <Compile Include="Models\Coordinates.cs" />
-    <Compile Include="Models\IMovable.cs" />
-    <Compile Include="Models\IResurrectable.cs" />
+    <Compile Include="Interfaces\IMovable.cs" />
+    <Compile Include="Interfaces\IResurrectable.cs" />
     <Compile Include="Models\LivingUnit.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Enemy.cs" />
