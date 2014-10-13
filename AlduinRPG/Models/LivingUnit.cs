@@ -1,9 +1,9 @@
-﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using AlduinRPG.Interfaces;
-
-namespace AlduinRPG.Models
+﻿namespace AlduinRPG.Models
 {
+    using System;
+    using AlduinRPG.Interfaces;
+
+
     public abstract class LivingUnit : Unit, ILiving, IMovable
     {
         protected LivingUnit(Coordinates coordinates, int maxHealth, int attackStrength, int level)

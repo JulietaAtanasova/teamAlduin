@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Engine\Engine.cs" />
     <Compile Include="Interfaces\ILiving.cs" />
+    <Compile Include="Interfaces\IRenderable.cs" />
     <Compile Include="Interfaces\IUnit.cs" />
     <Compile Include="Models\Bonus.cs" />
     <Compile Include="Models\BossEnemy.cs" />
