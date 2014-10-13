@@ -1,11 +1,12 @@
-﻿namespace AlduinRPG.Models
+﻿using AlduinRPG.Interfaces;
+
+namespace AlduinRPG.Models
 {
-    public abstract class LivingUnit : Unit, IAttackable, IMovable, IResurrectable
+    public abstract class LivingUnit : Unit, ILiving, IMovable
     {
         protected LivingUnit(Coordinates coordinates, int maxHealth, int attackStrength, int level)
             : base(coordinates)
         {
-            this.MaxHealth = maxHealth;
             this.CurrentHealth = maxHealth;
             this.AttackStrength = attackStrength;
             this.Level = level;
@@ -16,7 +17,6 @@
         public int AttackStrength { get; set; }
         public int Level { get; set; }
         public Direction Direction { get; set; }
-
         public void PhysicallAttack()
         {
             // TODO
@@ -27,9 +27,16 @@
             // TODO
         }
 
-        public void Ressurect()
+        public void Resurrect()
         {
-            // TODO live--, coords?, maxHealth, maxMana
+            // TODO: Return Coordinates?????
         }
+
+        public int TakeDamage(int attackPoints)
+        {
+            this.CurrentHealth -= attackPoints;
+            return this.CurrentHealth;
+        }
+
     }
 }

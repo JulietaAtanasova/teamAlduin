@@ -41,14 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IAttackable.cs" />
+    <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Interfaces\ILiving.cs" />
     <Compile Include="Interfaces\IUnit.cs" />
     <Compile Include="Models\Bonus.cs" />
     <Compile Include="Models\BossEnemy.cs" />
     <Compile Include="Models\Chest.cs" />
     <Compile Include="Models\Coordinates.cs" />
     <Compile Include="Interfaces\IMovable.cs" />
-    <Compile Include="Interfaces\IResurrectable.cs" />
     <Compile Include="Models\LivingUnit.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Enemy.cs" />
@@ -66,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AlduinRPGClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

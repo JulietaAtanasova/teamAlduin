@@ -6,8 +6,6 @@
         {
         }
 
-        // TODO IncreaseHealth()
-        // TODO IncreaseMana()
-        // TODO IncreaseLives()
+        public string Name { get; set; }
     }
 }
