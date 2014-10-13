@@ -1,4 +1,6 @@
-﻿using AlduinRPG.Interfaces;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
+using AlduinRPG.Interfaces;
 
 namespace AlduinRPG.Models
 {
@@ -27,15 +29,18 @@ namespace AlduinRPG.Models
             // TODO
         }
 
-        public void Resurrect()
+        public Coordinates Resurrect(GameMap gameMap)
         {
-            // TODO: Return Coordinates?????
+            Random random = new Random();
+            int x = random.Next(gameMap.Width + 1, gameMap.Width);
+            int y = random.Next(gameMap.Height + 1, gameMap.Height);
+            Coordinates resurreCoordinates = new Coordinates(x, y);
+            return resurreCoordinates;
         }
 
-        public int TakeDamage(int attackPoints)
+        public void TakeDamage(int attack)
         {
-            this.CurrentHealth -= attackPoints;
-            return this.CurrentHealth;
+            this.CurrentHealth -= attack;
         }
 
     }

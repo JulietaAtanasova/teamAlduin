@@ -54,22 +54,24 @@
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Enemy.cs" />
     <Compile Include="Models\Magician.cs" />
-    <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\GameMap.cs" />
     <Compile Include="Models\Hero.cs" />
+    <Compile Include="Models\MapType.cs" />
     <Compile Include="Models\Obstacle.cs" />
     <Compile Include="Models\Warrior.cs" />
     <Compile Include="Models\StaticUnit.cs" />
     <Compile Include="Models\Teleport.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Models\WeakEnemy.cs" />
+    <Compile Include="Models\Magic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AlduinRPGClassDiagram.cd" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\" />
+    <None Include="GameDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

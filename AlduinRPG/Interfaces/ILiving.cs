@@ -1,12 +1,14 @@
-﻿namespace AlduinRPG.Interfaces
+﻿using AlduinRPG.Models;
+
+namespace AlduinRPG.Interfaces
 {
     public interface ILiving
     {
         void PhysicallAttack();
         
-        int TakeDamage(int attackPoints);
+        void TakeDamage(int attack);
                 
-        void Resurrect();
+        Coordinates Resurrect(GameMap gameMap);
 
     }
 }
