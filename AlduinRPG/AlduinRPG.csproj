@@ -47,6 +47,7 @@
     <Compile Include="Models\Bonus.cs" />
     <Compile Include="Models\BossEnemy.cs" />
     <Compile Include="Models\Chest.cs" />
+    <Compile Include="Models\ChestType.cs" />
     <Compile Include="Models\Coordinates.cs" />
     <Compile Include="Interfaces\IMovable.cs" />
     <Compile Include="Models\LivingUnit.cs" />

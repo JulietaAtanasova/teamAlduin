@@ -31,15 +31,18 @@
 
         private void TakeChest(Chest chest)
         {
-            switch (chest.Name)
+            switch (chest.ChestType)
             {
-                case "Live":
+                case ChestType.Live:
+                    // TODO: if Lives == MaxLives
                     this.Lives++;
                     break;
-                case "MaxHealth":
+                case ChestType.MaxHealth:
+                    // TODO: if CurrHealth == MaxHealth
                     this.CurrentHealth = this.MaxHealth;
                     break;
-                case "MaxMana":
+                case ChestType.MaxMana:
+                    // TODO: if CurrMana == MaxMana
                     this.CurrentMana = MaxMana;
                     break;
             }
@@ -47,18 +50,22 @@
 
         public void RecoverMana()
         {
-            // TODO
+            this.CurrentMana += this.RecoverySpeedMana;
         }
 
-        public int RecoverHealth()
+        public void RecoverHealth()
         {
             this.CurrentHealth += this.RecoverySpeedHealth;
-            return this.CurrentHealth;
         }
 
         public void CastMagic()
         {
             // TODO
+        }
+
+        public void GainExperience(int expirienceIncreasment)
+        {
+            this.Experience += expirienceIncreasment;
         }
     }
 }

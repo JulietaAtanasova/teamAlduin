@@ -2,10 +2,11 @@
 {
     public class Chest : Bonus
     {
-        public Chest(Coordinates coordinates) : base(coordinates)
+        public Chest(Coordinates coordinates, ChestType chestType) : base(coordinates)
         {
+            this.ChestType = chestType;
         }
 
-        public string Name { get; set; }
+        public ChestType ChestType { get; set; }
     }
 }
