@@ -34,8 +34,8 @@ namespace AlduinRPG.Models
             Random random = new Random();
             int x = random.Next(gameMap.Width + 1, gameMap.Width);
             int y = random.Next(gameMap.Height + 1, gameMap.Height);
-            Coordinates resurreCoordinates = new Coordinates(x, y);
-            return resurreCoordinates;
+            Coordinates resurrectCoordinates = new Coordinates(x, y);
+            return resurrectCoordinates;
         }
 
         public void TakeDamage(int attack)
