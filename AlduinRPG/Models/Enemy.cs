@@ -5,7 +5,6 @@
         protected Enemy(Coordinates coordinates, int maxHealth, int attackStrength, int level)
             : base(coordinates, maxHealth, attackStrength, level)
         {
-            this.CurrentHealth = maxHealth;
         }
     }
 }

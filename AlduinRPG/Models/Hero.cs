@@ -1,4 +1,6 @@
-﻿namespace AlduinRPG.Models
+﻿using System.Collections.Generic;
+
+namespace AlduinRPG.Models
 {
     public abstract class Hero : LivingUnit
     {
@@ -64,9 +66,25 @@
             }
         }
 
-        public int CastMagic()
+        public List<Magic> CastMagic(Magic magic)
         {
-            return this.CurrentMana;
+            int magicRange = this.Level + 1;
+            List<Magic> magicFields = new List<Magic>();
+
+            for (int x = this.Coordinates.X - magicRange; x <= this.Coordinates.X + magicRange; x++)
+            {
+                for (int y = this.Coordinates.Y - magicRange; y < this.Coordinates.Y + magicRange; y++)
+                {
+                    if (x == this.Coordinates.X && y == this.Coordinates.Y)
+                    {
+                        continue;
+                    }
+
+                    magicFields.Add(new Magic(new Coordinates(x, y)));
+                }
+            }
+
+            return magicFields;
         }
 
         public void GainExperience()
