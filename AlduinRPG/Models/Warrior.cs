@@ -2,11 +2,16 @@
 {
     public class Warrior : Hero
     {
-        // TODO constants health, attack, mana, lives etc.
-        
-        public Warrior(Coordinates coordinates, int maxHealth, int attackStrength, int level, 
-            int maxMana, int experience, int lives, int recoverySpeedHealth, int recoverySpeedMana)
-            : base(coordinates, maxHealth, attackStrength, level, maxMana, experience, lives, recoverySpeedHealth, recoverySpeedMana)
+        private const int DefaultMaxHealth = 300; 
+        private const int DefaultAttackStrength = 80;
+        private const int DefaultLevel = 1;
+        private const int DefaultMaxMana = 70;
+        private const int DefaultExperience = 1;
+        private const int DefaultLives = 1;
+        private const int DefaultRecoverySpeedHealth = 3;
+        private const int DefaultrecoverySpeedMana = 1;
+        public Warrior(Coordinates coordinates)
+            : base(coordinates, DefaultMaxHealth, DefaultAttackStrength, DefaultLevel, DefaultMaxMana, DefaultExperience, DefaultLives, DefaultRecoverySpeedHealth, DefaultrecoverySpeedMana)
         {
         }
     }
