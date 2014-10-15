@@ -2,9 +2,11 @@
 {
     public class WeakEnemy : Enemy
     {
-        // TODO constants health, attack, etc.
-        public WeakEnemy(Coordinates coordinates, int maxHealth, int attackStrength, int level)
-            : base(coordinates, maxHealth, attackStrength, level)
+        private const int DefaultMaxHealth = 120;
+        private const int DefaultAttackStrength = 50;
+        private const int DefaultLevel = 1;
+        public WeakEnemy(Coordinates coordinates)
+            : base(coordinates, DefaultMaxHealth, DefaultAttackStrength, DefaultLevel)
         {
         }
     }
