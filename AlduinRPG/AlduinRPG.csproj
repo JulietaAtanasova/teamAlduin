@@ -51,6 +51,7 @@
     <Compile Include="Models\ChestType.cs" />
     <Compile Include="Models\Coordinates.cs" />
     <Compile Include="Interfaces\IMovable.cs" />
+    <Compile Include="Models\EnemyType.cs" />
     <Compile Include="Models\HeroType.cs" />
     <Compile Include="Models\LivingUnit.cs" />
     <Compile Include="Models\Direction.cs" />

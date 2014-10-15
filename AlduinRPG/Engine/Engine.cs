@@ -7,19 +7,26 @@ namespace AlduinRPG.Engine
 {
     public class Engine
     {
+        private int ObstacleCount;
+        private int EnemyCount;
+
         private GameMap gameMap;
         private Dictionary<Coordinates, IUnit> units;
         private Random random = new Random();
-
-        public Engine()
+        
+        public Engine(GameMap gameMap)
         {
-            
+            this.gameMap = gameMap;
+            this.ObstacleCount = gameMap.Width;
+            this.EnemyCount = gameMap.Height;
         }
 
         private void Initialize()
         {
             this.CreateBorder();
-            this.AddHero();
+            this.AddHero(HeroType.Warrior);
+            this.AddObstacles();
+            this.AddEnemies();
         }
 
         private void CreateBorder()
@@ -54,6 +61,46 @@ namespace AlduinRPG.Engine
                     break;
                 default: 
                     throw new NotImplementedException("This hero type was not implemented yet.");
+            }
+        }
+
+        private Coordinates GetRandomCoordinates()
+        {
+            int x = random.Next(0, gameMap.Width);
+            int y = random.Next(0, gameMap.Height);
+            Coordinates coordinates = new Coordinates(x,y);
+            if (!units.ContainsKey(coordinates))
+            {
+                return coordinates;
+            }
+            return GetRandomCoordinates();
+        }
+
+        private void AddObstacles()
+        {
+            for (int i = 0; i < this.ObstacleCount; i++)
+            {
+                AddRandomObstacle(GetRandomCoordinates());
+            }
+        }
+
+        private void AddEnemies()
+        {
+            for (int i = 0; i < this.EnemyCount; i++)
+            {
+                Coordinates coordinates = GetRandomCoordinates();
+                EnemyType enemyType = (EnemyType) random.Next(0, 2);
+                switch (enemyType)
+                {
+                    case EnemyType.WeakEnemy:
+                        // TODO
+                        break;
+                    case EnemyType.BossEnemy:
+                        // TODO
+                        break;
+                    default:
+                        throw new NotImplementedException("This enemy type was not implemented yet.");
+                }
             }
         }
     }
