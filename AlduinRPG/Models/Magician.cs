@@ -2,10 +2,16 @@
 {
     class Magician : Hero
     {
-        // TODO constants
-        public Magician(Coordinates coordinates, int maxHealth, int attackStrength, int level,
-            int maxMana, int experience, int lives, int recoverySpeedHealth, int recoverySpeedMana)
-            : base(coordinates, maxHealth, attackStrength, level, maxMana, experience, lives, recoverySpeedHealth, recoverySpeedMana)
+        private const int DefaultMaxHealth = 200; 
+        private const int DefaultAttackStrength = 30;
+        private const int DefaultLevel = 1;
+        private const int DefaultMaxMana = 120;
+        private const int DefaultExperience = 1;
+        private const int DefaultLives = 1;
+        private const int DefaultRecoverySpeedHealth = 2;
+        private const int DefaultrecoverySpeedMana = 4;
+        public Magician(Coordinates coordinates)
+            : base(coordinates, DefaultMaxHealth, DefaultAttackStrength, DefaultLevel, DefaultMaxMana, DefaultExperience, DefaultLives, DefaultRecoverySpeedHealth, DefaultrecoverySpeedMana)
         {
         }
     }
