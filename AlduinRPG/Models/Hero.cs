@@ -2,47 +2,45 @@
 {
     public abstract class Hero : LivingUnit
     {
-        public const int MaxLives = 3; // ?????
+        private const int MaxLives = 5;
+        private const int MaxLevelExpirience = 100;
 
         public Hero(Coordinates coordinates, int maxHealth, int attackStrength, int level,
-            int maxMana, int experience, int lives, int recoverySpeedHealth, int recoverySpeedMana)
+            int maxMana, int currentExperience, int lives, int recoverySpeedHealth, int recoverySpeedMana)
             : base(coordinates, maxHealth, attackStrength, level)
         {
             this.CurrentMana = maxMana;
             this.MaxMana = maxMana;
-            this.CurrentHealth = maxHealth;
-            this.Experience = experience;
+            this.CurrentExperience = currentExperience;
             this.Lives = lives;
             this.RecoverySpeedHealth = recoverySpeedHealth;
             this.RecoverySpeedMana = recoverySpeedMana;
         }
 
         public int MaxMana { get; set; }
-
         public int CurrentMana { get; set; }
-
-        public int Experience { get; set; }
-
+        public int RecoverySpeedMana { get; set; }
+        public int ExperienceIncreasment { get; set; }
+        public int CurrentExperience { get; set; }
         public int Lives { get; set; }
-
         public int RecoverySpeedHealth { get; set; }
 
-        public int RecoverySpeedMana { get; set; }
 
         private void TakeChest(Chest chest)
         {
             switch (chest.ChestType)
             {
-                case ChestType.Live:
-                    // TODO: if Lives == MaxLives
+                case ChestType.Life:
                     this.Lives++;
+                    if (this.Lives > MaxLives)
+                    {
+                        this.Lives = MaxLives;
+                    }
                     break;
                 case ChestType.MaxHealth:
-                    // TODO: if CurrHealth == MaxHealth
                     this.CurrentHealth = this.MaxHealth;
                     break;
                 case ChestType.MaxMana:
-                    // TODO: if CurrMana == MaxMana
                     this.CurrentMana = MaxMana;
                     break;
             }
@@ -51,11 +49,19 @@
         public void RecoverMana()
         {
             this.CurrentMana += this.RecoverySpeedMana;
+            if (this.CurrentMana > this.MaxMana)
+            {
+                this.CurrentMana = this.MaxMana;
+            }
         }
 
         public void RecoverHealth()
         {
             this.CurrentHealth += this.RecoverySpeedHealth;
+            if (this.CurrentHealth > this.MaxHealth)
+            {
+                this.CurrentHealth = this.MaxHealth;
+            }
         }
 
         public int CastMagic()
@@ -63,9 +69,9 @@
             return this.CurrentMana;
         }
 
-        public void GainExperience(int expirienceIncreasment)
+        public void GainExperience()
         {
-            this.Experience += expirienceIncreasment;
+            this.CurrentExperience += this.ExperienceIncreasment;
         }
     }
 }
