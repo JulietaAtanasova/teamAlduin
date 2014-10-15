@@ -2,7 +2,7 @@
 {
     public enum ChestType
     {
-        Live,
+        Life,
         MaxMana,
         MaxHealth
     }

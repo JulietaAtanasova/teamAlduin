@@ -58,9 +58,9 @@
             this.CurrentHealth += this.RecoverySpeedHealth;
         }
 
-        public void CastMagic()
+        public int CastMagic()
         {
-            // TODO
+            return this.CurrentMana;
         }
 
         public void GainExperience(int expirienceIncreasment)

@@ -10,6 +10,7 @@
             : base(coordinates)
         {
             this.CurrentHealth = maxHealth;
+            this.MaxHealth = maxHealth;
             this.AttackStrength = attackStrength;
             this.Level = level;
         }
@@ -19,21 +20,21 @@
         public int AttackStrength { get; set; }
         public int Level { get; set; }
         public Direction Direction { get; set; }
-        public void PhysicallAttack()
+        public int PhysicallAttack()
         {
-            // TODO
+            return this.AttackStrength;
         }
 
         public void Move()
         {
-            // TODO
+            // TODO: 
         }
 
         public Coordinates Resurrect(GameMap gameMap)
         {
             Random random = new Random();
-            int x = random.Next(gameMap.Width + 1, gameMap.Width);
-            int y = random.Next(gameMap.Height + 1, gameMap.Height);
+            int x = random.Next(1, gameMap.Width);
+            int y = random.Next(1, gameMap.Height);
             Coordinates resurrectCoordinates = new Coordinates(x, y);
             return resurrectCoordinates;
         }
