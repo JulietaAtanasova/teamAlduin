@@ -2,8 +2,10 @@
 {
     public class Obstacle : StaticUnit
     {
-        protected Obstacle(Coordinates coordinates) : base(coordinates)
+        public Obstacle(Coordinates coordinates, ObstacleType obstacleType) : base(coordinates)
         {
+            this.ObstacleType = obstacleType;
         }
+        public ObstacleType ObstacleType { get; set; }
     }
 }

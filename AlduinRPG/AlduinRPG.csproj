@@ -51,6 +51,7 @@
     <Compile Include="Models\ChestType.cs" />
     <Compile Include="Models\Coordinates.cs" />
     <Compile Include="Interfaces\IMovable.cs" />
+    <Compile Include="Models\HeroType.cs" />
     <Compile Include="Models\LivingUnit.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Enemy.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Models\Hero.cs" />
     <Compile Include="Models\MapType.cs" />
     <Compile Include="Models\Obstacle.cs" />
+    <Compile Include="Models\ObstacleType.cs" />
     <Compile Include="Models\Warrior.cs" />
     <Compile Include="Models\StaticUnit.cs" />
     <Compile Include="Models\Teleport.cs" />
