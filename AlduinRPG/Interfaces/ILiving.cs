@@ -8,7 +8,7 @@ namespace AlduinRPG.Interfaces
         
         void TakeDamage(int attack);
                 
-        Coordinates Resurrect(GameMap gameMap);
+        void Resurrect(Coordinates coordinates);
 
     }
 }

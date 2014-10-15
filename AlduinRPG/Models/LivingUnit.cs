@@ -27,18 +27,12 @@
             return this.AttackStrength;
         }
 
-        public void Move()
-        {
-            // TODO: 
-        }
+        public abstract void Move(Direction direction);
 
-        public Coordinates Resurrect(GameMap gameMap)
+        public virtual void Resurrect(Coordinates coordinates)
         {
-            Random random = new Random();
-            int x = random.Next(1, gameMap.Width);
-            int y = random.Next(1, gameMap.Height);
-            Coordinates resurrectCoordinates = new Coordinates(x, y);
-            return resurrectCoordinates;
+            this.Coordinates = coordinates;
+            this.CurrentHealth = this.MaxHealth;
         }
 
         public void TakeDamage(int attack)

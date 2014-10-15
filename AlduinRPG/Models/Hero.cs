@@ -91,5 +91,16 @@ namespace AlduinRPG.Models
         {
             this.CurrentExperience += this.ExperienceIncreasment;
         }
+
+        public override void Resurrect(Coordinates coordinates)
+        {
+            base.Resurrect(coordinates);
+            this.CurrentMana = this.MaxMana;
+        }
+
+        public override void Move(Direction direction)
+        {
+            // TODO
+        }
     }
 }

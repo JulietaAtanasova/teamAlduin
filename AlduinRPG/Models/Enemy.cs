@@ -6,5 +6,10 @@
             : base(coordinates, maxHealth, attackStrength, level)
         {
         }
+
+        public override void Move(Direction direction)
+        {
+            // TODO
+        }
     }
 }

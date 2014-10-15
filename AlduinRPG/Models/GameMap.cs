@@ -2,13 +2,15 @@
 {
     public class GameMap
     {
-        private const int widthRatio = 4;
-        private const int heightRatio = 3;
+        private readonly int widthRatio;
+        private readonly int heightRatio;
 
-        public GameMap(MapType mapType)
+        public GameMap(MapType mapType, int widthRatio = 4, int heightRatio = 3)
         {
-            this.Width = (int)mapType * widthRatio;
-            Height = (int)mapType * heightRatio;
+            this.widthRatio = widthRatio;
+            this.heightRatio = heightRatio;
+            this.Width = (int)mapType * this.widthRatio;
+            this.Height = (int)mapType * this.heightRatio;
         }
 
         public int Width { get; set; }

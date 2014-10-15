@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AlduinRPG.Interfaces;
 using AlduinRPG.Models;
 
@@ -7,18 +8,52 @@ namespace AlduinRPG.Engine
 {
     public class Engine
     {
-        private int ObstacleCount;
-        private int EnemyCount;
-
-        private GameMap gameMap;
+        private readonly int ObstacleCount;
+        private readonly int EnemyCount;
+        private readonly GameMap gameMap;
+        private readonly Random random = new Random();
         private Dictionary<Coordinates, IUnit> units;
-        private Random random = new Random();
         
         public Engine(GameMap gameMap)
         {
             this.gameMap = gameMap;
             this.ObstacleCount = gameMap.Width;
             this.EnemyCount = gameMap.Height;
+            this.units = new Dictionary<Coordinates, IUnit>();
+        }
+
+        public void Run()
+        {
+            this.Initialize();
+            while (true)
+            {
+                this.MoveEnemies();
+                this.ProcessCollisions();
+                // TODO Gameover?
+                // TODO Draw
+                // TODO Thread.Sleep
+            }
+        }
+
+        private void MoveEnemies()
+        {
+            foreach (var unit in this.units)
+            {
+                if (unit.Value is Enemy)
+                {
+                    Enemy enemy = unit.Value as Enemy;
+                    Direction direction = this.GetDirection(enemy);
+                    enemy.Move(direction);
+                }
+            }
+        }
+
+        private void ProcessCollisions()
+        {
+            // TODO Enemy/Hero
+            // TODO Enemy/Magic
+            // TODO Remove dead units
+
         }
 
         private void Initialize()
@@ -31,56 +66,39 @@ namespace AlduinRPG.Engine
 
         private void CreateBorder()
         {
-            for (int i = 0; i < gameMap.Width; i++)
+            for (int i = 0; i < this.gameMap.Width; i++)
             {
-                AddRandomObstacle(new Coordinates(i, 0));
-                AddRandomObstacle(new Coordinates(i, gameMap.Height - 1));
+                this.AddRandomObstacle(new Coordinates(i, 0));
+                this.AddRandomObstacle(new Coordinates(i, this.gameMap.Height - 1));
             }
-            for (int j = 1; j < gameMap.Height - 1; j++)
+            for (int j = 1; j < this.gameMap.Height - 1; j++)
             {
-                AddRandomObstacle(new Coordinates(0, j));
-                AddRandomObstacle(new Coordinates(gameMap.Width - 1, j));
+                this.AddRandomObstacle(new Coordinates(0, j));
+                this.AddRandomObstacle(new Coordinates(this.gameMap.Width - 1, j));
             }
-        }
-
-        private void AddRandomObstacle(Coordinates coordinates)
-        {
-            ObstacleType obstacleType = (ObstacleType)random.Next(0, 3);
-            units.Add(coordinates, new Obstacle(coordinates, obstacleType));
         }
 
         private void AddHero(HeroType heroType)
         {
+            Coordinates coordinates = this.GetRandomCoordinates();
             switch (heroType)
             {
                 case HeroType.Warrior:
-                    // TODO
+                    this.units.Add(coordinates, new Warrior(coordinates));
                     break;
                 case HeroType.Magician:
-                    // TODO
+                    this.units.Add(coordinates, new Magician(coordinates));
                     break;
                 default: 
                     throw new NotImplementedException("This hero type was not implemented yet.");
             }
         }
 
-        private Coordinates GetRandomCoordinates()
-        {
-            int x = random.Next(0, gameMap.Width);
-            int y = random.Next(0, gameMap.Height);
-            Coordinates coordinates = new Coordinates(x,y);
-            if (!units.ContainsKey(coordinates))
-            {
-                return coordinates;
-            }
-            return GetRandomCoordinates();
-        }
-
         private void AddObstacles()
         {
             for (int i = 0; i < this.ObstacleCount; i++)
             {
-                AddRandomObstacle(GetRandomCoordinates());
+                this.AddRandomObstacle(this.GetRandomCoordinates());
             }
         }
 
@@ -88,20 +106,94 @@ namespace AlduinRPG.Engine
         {
             for (int i = 0; i < this.EnemyCount; i++)
             {
-                Coordinates coordinates = GetRandomCoordinates();
-                EnemyType enemyType = (EnemyType) random.Next(0, 2);
-                switch (enemyType)
+                this.AddRandomEnemy();
+            }
+        }
+
+        private void AddRandomObstacle(Coordinates coordinates)
+        {
+            ObstacleType obstacleType = (ObstacleType)this.random.Next(0, 3);
+            this.units.Add(coordinates, new Obstacle(coordinates, obstacleType));
+        }
+
+        private void AddRandomEnemy()
+        {
+            Hero hero = this.GetHero();
+            Coordinates coordinates = this.GetRandomCoordinates();
+            EnemyType enemyType = (hero.Level > 1) ? EnemyType.BossEnemy : EnemyType.WeakEnemy; // ??? 
+            switch (enemyType)
+            {
+                case EnemyType.WeakEnemy:
+                    this.units.Add(coordinates, new WeakEnemy(coordinates));
+                    break;
+                case EnemyType.BossEnemy:
+                    this.units.Add(coordinates, new BossEnemy(coordinates));
+                    break;
+                default:
+                    throw new NotImplementedException("This enemy type was not implemented yet.");
+            }
+        }
+
+        private Coordinates GetRandomCoordinates()
+        {
+            int x = this.random.Next(0, this.gameMap.Width);
+            int y = this.random.Next(0, this.gameMap.Height);
+            Coordinates coordinates = new Coordinates(x, y);
+            if (!this.units.ContainsKey(coordinates))
+            {
+                return coordinates;
+            }
+
+            return this.GetRandomCoordinates();
+        }
+
+        private Hero GetHero()
+        {
+            Hero hero = null; // ???????????
+            foreach (var unit in this.units)
+            {
+                if (unit.Value is Hero)
                 {
-                    case EnemyType.WeakEnemy:
-                        // TODO
-                        break;
-                    case EnemyType.BossEnemy:
-                        // TODO
-                        break;
-                    default:
-                        throw new NotImplementedException("This enemy type was not implemented yet.");
+                    hero = unit.Value as Hero;
                 }
             }
+
+            if (hero == null)
+            {
+                throw new ArgumentNullException("hero", "Cannot find hero.");
+            }
+
+            return hero;
+        }
+
+        private Direction GetDirection(IUnit unit)
+        {
+            Direction direction = (Direction)this.random.Next(0, 4);
+            int nextX = unit.Coordinates.X;
+            int nextY = unit.Coordinates.Y;
+            switch (direction)
+            {
+                case Direction.Up:
+                    nextY--;
+                    break;
+                case Direction.Right:
+                    nextX++;
+                    break;
+                case Direction.Down:
+                    nextY++;
+                    break;
+                case Direction.Left:
+                    nextX--;
+                    break;
+            }
+
+            Coordinates nextCoordinates = new Coordinates(nextX, nextY);
+            if (!this.units.ContainsKey(nextCoordinates))
+            {
+                return direction;
+            }
+
+            return this.GetDirection(unit);
         }
     }
 }
