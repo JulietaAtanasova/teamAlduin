@@ -82,6 +82,16 @@
     <Compile Include="Models\WeakEnemy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\BossView.cs" />
+    <Compile Include="Views\BushView.cs" />
+    <Compile Include="Views\ChestView.cs" />
+    <Compile Include="Views\EnemyView.cs" />
+    <Compile Include="Views\MagicianView.cs" />
+    <Compile Include="Views\RendererView.cs" />
+    <Compile Include="Views\RockView.cs" />
+    <Compile Include="Views\TeleportView.cs" />
+    <Compile Include="Views\TreeView.cs" />
+    <Compile Include="Views\WarriorView.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -108,9 +118,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
