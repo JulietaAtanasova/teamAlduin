@@ -5,15 +5,21 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AlduinRPGWinForms
+namespace AlduinRPG
 {
-    public partial class Game : Form
+    public partial class GameForm : Form
     {
-        public Game()
+        public GameForm()
         {
             InitializeComponent();
+        }
+
+        private void GameForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿namespace AlduinRPGWinForms
+﻿namespace AlduinRPG
 {
-    partial class Game
+    partial class GameForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components;
+        private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -30,14 +30,14 @@
         {
             this.SuspendLayout();
             // 
-            // Game
+            // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 442);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "Game";
-            this.Text = "RPG Game";
+            this.ClientSize = new System.Drawing.Size(441, 261);
+            this.Name = "GameForm";
+            this.Text = "GameForm";
+            this.Load += new System.EventHandler(this.GameForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -45,4 +45,3 @@
         #endregion
     }
 }
-
