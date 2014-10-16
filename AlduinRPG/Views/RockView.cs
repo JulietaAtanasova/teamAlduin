@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AlduinRPGWinForms.Views
+﻿namespace AlduinRPGWinForms.Views
 {
-    class RockView
+    using AlduinRPG.Interfaces;
+
+    class RockView : IRenderable
     {
+        private const string imagePath = "Resources/"; // TODO
+        public void Render()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

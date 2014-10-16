@@ -1,6 +1,13 @@
 ﻿namespace AlduinRPGWinForms.Views
 {
-    class BossView
+    using AlduinRPG.Interfaces;
+
+    class BossView : IRenderable
     {
+        private const string imagePath = "Resources/"; // TODO
+        public void Render()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,7 +1,13 @@
 ﻿namespace AlduinRPGWinForms.Views
 {
-    class RendererView
+    using AlduinRPG.Interfaces;
+
+    class RendererView : IRenderable
     {
 
+        public void Render()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
