@@ -1,11 +1,10 @@
-﻿
-namespace AlduinRPG.Views
+﻿namespace AlduinRPG.Views
 {
     using Interfaces;
     using System;
     using System.Windows.Forms;
 
-    public partial class KeyboardMouseController : Telerik.WinControls.UI.RadForm, IUserInputInterface
+    public partial class KeyboardController : IUserInputInterface
     {
         public event EventHandler OnRightPressed;
 
@@ -19,7 +18,7 @@ namespace AlduinRPG.Views
 
         public event EventHandler OnPhysicalAttackPressed;
 
-        public KeyboardMouseController(Form form)
+        public KeyboardController(Form form)
         {
             form.KeyDown += FormKeyDown;
         }

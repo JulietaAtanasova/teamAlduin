@@ -1,6 +1,6 @@
-﻿namespace AlduinRPGWinForms.Views
+﻿namespace AlduinRPG.Views
 {
-    using AlduinRPG.Interfaces;
+    using Interfaces;
 
     class BushView : IRenderable
     {
