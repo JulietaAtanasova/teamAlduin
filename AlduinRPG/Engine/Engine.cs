@@ -29,7 +29,7 @@ namespace AlduinRPG.Engine
             {
                 this.MoveEnemies();
                 this.ProcessCollisions();
-                // TODO Gameover?
+                this.GameOver();
                 // TODO Draw
                 // TODO Thread.Sleep
             }
@@ -54,6 +54,14 @@ namespace AlduinRPG.Engine
             // TODO Enemy/Magic
             // TODO Remove dead units
 
+        }
+        
+        private bool GameOver()
+        {
+            if (this.GetHero().Lives == 0 && this.GetHero().CurrentHealth == 0)
+            {
+                return true;
+            }
         }
 
         private void Initialize()
@@ -194,6 +202,54 @@ namespace AlduinRPG.Engine
             }
 
             return this.GetDirection(unit);
+        }
+        
+        private void SubscribeToUserInput(IUserInputInterface userInterface)
+        {
+            userInterface.OnUpPressed += (sender, args) =>
+                {
+                    this.MovePlayerUp();
+                };
+            userInterface.OnDownPressed += (sender, args) =>
+                {
+                    this.MovePlayerDown();
+                };
+            userInterface.OnRightPressed += (sender, args) =>
+                {
+                    this.MovePlayerURight();
+                };
+            userInterface.OnLeftPressed += (sender, args) =>
+                {
+                    this.MovePlayerLeft();
+                };
+            userInterface.OnPhysicalAttackPressed += (sender, args) =>
+                {
+                    // TODO
+                };
+            userInterface.OnSpellPressed += (sender, args) =>
+                {
+                    // TODO
+                };
+        }
+
+        private void MovePlayerUp()
+        {
+            this.GetHero().Move(Direction.Up);
+        }
+
+        private void MovePlayerDown()
+        {
+            this.GetHero().Move(Direction.Down);
+        }
+
+        private void MovePlayerURight()
+        {
+            this.GetHero().Move(Direction.Right);
+        }
+
+        private void MovePlayerLeft()
+        {
+            this.GetHero().Move(Direction.Left);
         }
     }
 }
