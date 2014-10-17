@@ -74,7 +74,7 @@
     <Compile Include="Interfaces\ILiving.cs" />
     <Compile Include="Interfaces\IRenderable.cs" />
     <Compile Include="Interfaces\IUnit.cs" />
-    <Compile Include="Interfaces\IUserInputInterface.cs" />
+    <Compile Include="Interfaces\IUserInput.cs" />
     <Compile Include="Models\Bonus.cs" />
     <Compile Include="Models\BossEnemy.cs" />
     <Compile Include="Models\Chest.cs" />

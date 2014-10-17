@@ -62,6 +62,7 @@ namespace AlduinRPG.Engine
             {
                 return true;
             }
+            return false;
         }
 
         private void Initialize()
@@ -204,7 +205,7 @@ namespace AlduinRPG.Engine
             return this.GetDirection(unit);
         }
         
-        private void SubscribeToUserInput(IUserInputInterface userInterface)
+        private void SubscribeToUserInput(IUserInput userInterface)
         {
             userInterface.OnUpPressed += (sender, args) =>
                 {

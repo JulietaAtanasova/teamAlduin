@@ -4,7 +4,7 @@
     using System;
     using System.Windows.Forms;
 
-    public partial class KeyboardController : IUserInputInterface
+    public partial class KeyboardController : IUserInput
     {
         public event EventHandler OnRightPressed;
 

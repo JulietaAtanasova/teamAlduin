@@ -1,7 +1,9 @@
 ﻿namespace AlduinRPG.Interfaces
 {
+    using Models;
+
     public interface IRenderable
     {
-        void Render();
+        void Render(Coordinates coordinates);
     }
 }

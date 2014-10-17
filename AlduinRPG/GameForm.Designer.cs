@@ -34,9 +34,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(441, 261);
+            this.ClientSize = new System.Drawing.Size(640, 480);
             this.Name = "GameForm";
-            this.Text = "GameForm";
+            this.Text = "The Legend Of Gosho / Peshoball";
             this.Load += new System.EventHandler(this.GameForm_Load);
             this.ResumeLayout(false);
 

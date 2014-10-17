@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface IUserInputInterface
+    public interface IUserInput
     {
         event EventHandler OnRightPressed;
         event EventHandler OnLeftPressed;
