@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AlduinRPG.Models.Bonus" Collapsed="true">
+    <Position X="20" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Static\Bonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.BossEnemy" Collapsed="true">
+    <Position X="8.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Models\Living\BossEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.Chest" Collapsed="true">
+    <Position X="20" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Static\Chest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.Enemy" Collapsed="true">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Living\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.GameMap" Collapsed="true">
+    <Position X="27" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAgAQAQAAAAEAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Static\GameMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.Hero" Collapsed="true">
+    <Position X="14.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAKAwAAAgIEAAAAgAAAEMAGQgDAIgIAAAIAQ=</HashCode>
+      <FileName>Models\Living\Hero.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.LivingUnit" Collapsed="true">
+    <Position X="12" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAQIAIAIAQKAAAACAAAAQAAAEEAAABgAAAgAEAAAA=</HashCode>
+      <FileName>Models\Living\LivingUnit.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AlduinRPG.Models.Magic" Collapsed="true">
+    <Position X="22.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\Static\Magic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.Magician" Collapsed="true">
+    <Position X="15.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAECAAAAAgQAAAAAAAAEAAACAAA=</HashCode>
+      <FileName>Models\Living\Magician.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.Obstacle" Collapsed="true">
+    <Position X="17.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Models\Static\Obstacle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.StaticUnit" Collapsed="true">
+    <Position X="21" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Static\StaticUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.Teleportation" Collapsed="true">
+    <Position X="24.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Models\Static\Teleportation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.Unit" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Unit.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AlduinRPG.Models.Warrior" Collapsed="true">
+    <Position X="13.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAECAAAAAgwAAAAAAAAEAAACAAA=</HashCode>
+      <FileName>Models\Living\Warrior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlduinRPG.Models.WeakEnemy" Collapsed="true">
+    <Position X="11" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Models\Living\WeakEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="AlduinRPG.Models.Coordinates" Collapsed="true">
+    <Position X="27" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAYAA=</HashCode>
+      <FileName>Models\Coordinates.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="AlduinRPG.Interfaces.ILiving" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Interfaces\ILiving.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AlduinRPG.Interfaces.IRenderable" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IRenderable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AlduinRPG.Interfaces.IUnit" Collapsed="true">
+    <Position X="7" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IUnit.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AlduinRPG.Interfaces.IUserInput" Collapsed="true">
+    <Position X="8.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAEAAEAAAAAAAAAAACAAABAAACAA=</HashCode>
+      <FileName>Interfaces\IUserInput.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AlduinRPG.Models.IMovable" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IMovable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="AlduinRPG.Models.ChestType" Collapsed="true">
+    <Position X="27" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAgAAAAAAABAAA=</HashCode>
+      <FileName>Models\Static\ChestType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AlduinRPG.Models.Direction" Collapsed="true">
+    <Position X="28.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAI=</HashCode>
+      <FileName>Models\Direction.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AlduinRPG.Models.EnemyType" Collapsed="true">
+    <Position X="30.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Living\EnemyType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AlduinRPG.Models.HeroType" Collapsed="true">
+    <Position X="27" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Models\Living\HeroType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AlduinRPG.Models.MapType" Collapsed="true">
+    <Position X="28.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAABAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Models\Static\MapType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AlduinRPG.Models.ObstacleType" Collapsed="true">
+    <Position X="30.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACCAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Static\ObstacleType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

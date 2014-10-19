@@ -6,7 +6,7 @@
         private const int DefaultAttackStrength = 20;
         private const int DefaultLevel = 1;
         public BossEnemy(Coordinates coordinates)
-            : base(coordinates, DefaultMaxHealth, DefaultAttackStrength, DefaultLevel)
+            : base(coordinates, BossEnemy.DefaultMaxHealth, BossEnemy.DefaultAttackStrength, BossEnemy.DefaultLevel)
         {
         }
     }

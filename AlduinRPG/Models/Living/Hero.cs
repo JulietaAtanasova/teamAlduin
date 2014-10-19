@@ -6,15 +6,22 @@ namespace AlduinRPG.Models
     {
         private const int MaxLives = 5;
         private const int MaxLevelExpirience = 100;
+        private int maxMana;
+        private int currentMana;
+        private int recoverySpeedMana;
+        private int experienceIncreasment;
+        private int currentExperience;
+        private int currentLives;
+        private int recoverySpeedHealth;
 
         public Hero(Coordinates coordinates, int maxHealth, int attackStrength, int level,
-            int maxMana, int currentExperience, int lives, int recoverySpeedHealth, int recoverySpeedMana)
+            int maxMana, int currentExperience, int currentLives, int recoverySpeedHealth, int recoverySpeedMana)
             : base(coordinates, maxHealth, attackStrength, level)
         {
             this.CurrentMana = maxMana;
             this.MaxMana = maxMana;
             this.CurrentExperience = currentExperience;
-            this.Lives = lives;
+            this.CurrentLives = currentLives;
             this.RecoverySpeedHealth = recoverySpeedHealth;
             this.RecoverySpeedMana = recoverySpeedMana;
         }
@@ -24,7 +31,7 @@ namespace AlduinRPG.Models
         public int RecoverySpeedMana { get; set; }
         public int ExperienceIncreasment { get; set; }
         public int CurrentExperience { get; set; }
-        public int Lives { get; set; }
+        public int CurrentLives { get; set; }
         public int RecoverySpeedHealth { get; set; }
 
 
@@ -33,11 +40,12 @@ namespace AlduinRPG.Models
             switch (chest.ChestType)
             {
                 case ChestType.Life:
-                    this.Lives++;
-                    if (this.Lives > MaxLives)
+                    this.CurrentLives++;
+                    if (this.CurrentLives > MaxLives)
                     {
-                        this.Lives = MaxLives;
+                        this.CurrentLives = MaxLives;
                     }
+
                     break;
                 case ChestType.MaxHealth:
                     this.CurrentHealth = this.MaxHealth;
@@ -98,9 +106,21 @@ namespace AlduinRPG.Models
             this.CurrentMana = this.MaxMana;
         }
 
-        public override void Move(Direction direction)
+        public override Coordinates Move(Direction direction)
         {
-            // TODO
+            switch (direction)
+            {
+                case Direction.Up:
+                    return new Coordinates(this.Coordinates.X, this.Coordinates.Y - 1);
+                case Direction.Right:
+                    return new Coordinates(this.Coordinates.X + 1, this.Coordinates.Y);
+                case Direction.Left:
+                    return new Coordinates(this.Coordinates.X - 1, this.Coordinates.Y);
+                case Direction.Down:
+                    return new Coordinates(this.Coordinates.X, this.Coordinates.Y + 1);
+                default:
+                    return new Coordinates(this.Coordinates.X, this.Coordinates.Y);
+            }
         }
     }
 }

@@ -4,6 +4,8 @@
     {
         private readonly int widthRatio;
         private readonly int heightRatio;
+        private int width;
+        private int height;
 
         public GameMap(MapType mapType, int widthRatio = 4, int heightRatio = 3)
         {

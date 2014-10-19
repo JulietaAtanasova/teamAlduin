@@ -6,6 +6,12 @@
 
     public abstract class LivingUnit : Unit, ILiving, IMovable
     {
+        private bool isAlive;
+        private int maxHealth;
+        private int currentHealth;
+        private int attackStrength;
+        private int level;
+        private Direction direction;
         protected LivingUnit(Coordinates coordinates, int maxHealth, int attackStrength, int level, bool isAlive = true)
             : base(coordinates)
         {
@@ -27,7 +33,7 @@
             return this.AttackStrength;
         }
 
-        public abstract void Move(Direction direction);
+        public abstract Coordinates Move(Direction direction);
 
         public virtual void Resurrect(Coordinates coordinates)
         {

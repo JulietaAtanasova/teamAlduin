@@ -75,29 +75,29 @@
     <Compile Include="Interfaces\IRenderable.cs" />
     <Compile Include="Interfaces\IUnit.cs" />
     <Compile Include="Interfaces\IUserInput.cs" />
-    <Compile Include="Models\Bonus.cs" />
-    <Compile Include="Models\BossEnemy.cs" />
-    <Compile Include="Models\Chest.cs" />
-    <Compile Include="Models\ChestType.cs" />
+    <Compile Include="Models\Static\Bonus.cs" />
+    <Compile Include="Models\Living\BossEnemy.cs" />
+    <Compile Include="Models\Static\Chest.cs" />
+    <Compile Include="Models\Static\ChestType.cs" />
     <Compile Include="Models\Coordinates.cs" />
     <Compile Include="Interfaces\IMovable.cs" />
-    <Compile Include="Models\EnemyType.cs" />
-    <Compile Include="Models\HeroType.cs" />
-    <Compile Include="Models\LivingUnit.cs" />
+    <Compile Include="Models\Living\EnemyType.cs" />
+    <Compile Include="Models\Living\HeroType.cs" />
+    <Compile Include="Models\Living\LivingUnit.cs" />
     <Compile Include="Models\Direction.cs" />
-    <Compile Include="Models\Enemy.cs" />
-    <Compile Include="Models\Magician.cs" />
-    <Compile Include="Models\GameMap.cs" />
-    <Compile Include="Models\Hero.cs" />
-    <Compile Include="Models\MapType.cs" />
-    <Compile Include="Models\Obstacle.cs" />
-    <Compile Include="Models\ObstacleType.cs" />
-    <Compile Include="Models\Warrior.cs" />
-    <Compile Include="Models\StaticUnit.cs" />
-    <Compile Include="Models\Teleport.cs" />
+    <Compile Include="Models\Living\Enemy.cs" />
+    <Compile Include="Models\Living\Magician.cs" />
+    <Compile Include="Models\Static\GameMap.cs" />
+    <Compile Include="Models\Living\Hero.cs" />
+    <Compile Include="Models\Static\MapType.cs" />
+    <Compile Include="Models\Static\Obstacle.cs" />
+    <Compile Include="Models\Static\ObstacleType.cs" />
+    <Compile Include="Models\Living\Warrior.cs" />
+    <Compile Include="Models\Static\StaticUnit.cs" />
+    <Compile Include="Models\Static\Teleportation.cs" />
     <Compile Include="Models\Unit.cs" />
-    <Compile Include="Models\WeakEnemy.cs" />
-    <Compile Include="Models\Magic.cs" />
+    <Compile Include="Models\Living\WeakEnemy.cs" />
+    <Compile Include="Models\Static\Magic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\BossView.cs" />
@@ -130,12 +130,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="GameDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

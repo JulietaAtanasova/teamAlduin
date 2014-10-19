@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AlduinRPG.Models
+﻿namespace AlduinRPG.Models
 {
+    using System;
+
     public class Teleportation : StaticUnit
     {
         public Teleportation(Coordinates coordinates) : base(coordinates)

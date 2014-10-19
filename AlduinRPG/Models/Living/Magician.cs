@@ -11,7 +11,9 @@
         private const int DefaultRecoverySpeedHealth = 2;
         private const int DefaultRecoverySpeedMana = 4;
         public Magician(Coordinates coordinates)
-            : base(coordinates, DefaultMaxHealth, DefaultAttackStrength, DefaultLevel, DefaultMaxMana, DefaultExperience, DefaultLives, DefaultRecoverySpeedHealth, DefaultRecoverySpeedMana)
+            : base(coordinates, Magician.DefaultMaxHealth, Magician.DefaultAttackStrength, Magician.DefaultLevel,
+            Magician.DefaultMaxMana, Magician.DefaultExperience, Magician.DefaultLives,
+            Magician.DefaultRecoverySpeedHealth, Magician.DefaultRecoverySpeedMana)
         {
         }
     }

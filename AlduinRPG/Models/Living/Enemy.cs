@@ -7,9 +7,10 @@
         {
         }
 
-        public override void Move(Direction direction)
+        public override Coordinates Move(Direction direction)
         {
-            // TODO
+            // TODO : random logic???
+            return new Coordinates(this.Coordinates.X, this.Coordinates.Y);
         }
     }
 }

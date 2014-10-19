@@ -2,7 +2,7 @@
 {
     public abstract class Bonus : StaticUnit
     {
-        protected Bonus(Coordinates coordinates) : base(coordinates)
+        public Bonus(Coordinates coordinates) : base(coordinates)
         {
         }
     }

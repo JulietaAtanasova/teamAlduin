@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AlduinRPG.Interfaces;
-using AlduinRPG.Models;
-
-namespace AlduinRPG.Engine
+﻿namespace AlduinRPG.Engine
 {
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    using Models;
     public class Engine
     {
         private readonly int ObstacleCount;
@@ -58,10 +56,11 @@ namespace AlduinRPG.Engine
         
         private bool GameOver()
         {
-            if (this.GetHero().Lives == 0 && this.GetHero().CurrentHealth == 0)
+            if (this.GetHero().CurrentLives == 0 && this.GetHero().CurrentHealth == 0)
             {
                 return true;
             }
+
             return false;
         }
 
@@ -80,6 +79,7 @@ namespace AlduinRPG.Engine
                 this.AddRandomObstacle(new Coordinates(i, 0));
                 this.AddRandomObstacle(new Coordinates(i, this.gameMap.Height - 1));
             }
+
             for (int j = 1; j < this.gameMap.Height - 1; j++)
             {
                 this.AddRandomObstacle(new Coordinates(0, j));

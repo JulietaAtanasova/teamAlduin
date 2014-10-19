@@ -4,6 +4,6 @@ namespace AlduinRPG.Interfaces
 {
     public interface IUnit
     {
-        Coordinates Coordinates { get; set; }
+        Coordinates Coordinates { get; }
     }
 }

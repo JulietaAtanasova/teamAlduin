@@ -1,10 +1,10 @@
-﻿using System;
-
-namespace AlduinRPG.Models
+﻿namespace AlduinRPG.Models
 {
-    public class Coordinates
+    public struct Coordinates
     {
-        public Coordinates(int x, int y)
+        private int x;
+        private int y;
+        public Coordinates(int x, int y) : this()
         {
             this.X = x;
             this.Y = y;
