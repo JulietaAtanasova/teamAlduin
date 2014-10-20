@@ -268,11 +268,11 @@
                 };
             userInterface.OnPhysicalAttackPressed += (sender, args) =>
                 {
-                    // TODO
+                    // TODO this.PhysicalAttack();
                 };
             userInterface.OnSpellPressed += (sender, args) =>
                 {
-                    // TODO
+                    // TODO this.MagicAttack();
                 };
         }
 
