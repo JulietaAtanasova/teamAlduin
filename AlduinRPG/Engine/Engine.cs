@@ -11,6 +11,7 @@
         private readonly GameMap gameMap;
         private readonly Random random = new Random();
         private Dictionary<Coordinates, IUnit> units;
+        private const int ATTACK_INTERVAL = 500;
         
         public Engine(GameMap gameMap)
         {
@@ -48,10 +49,33 @@
 
         private void ProcessCollisions()
         {
-            // TODO Enemy/Hero
+            ProcessCollisionsEnemyHero(this.GetHero(), this.GetEnemies());
             // TODO Enemy/Magic
             // TODO Remove dead units
 
+        }
+
+        private void ProcessCollisionsEnemyHero(Hero ourHero, List<Enemy> enemies)
+        {
+            foreach (var enemy in enemies)
+            {
+                bool checkX = ourHero.Coordinates.X >= enemy.Coordinates.X - 1
+                              && ourHero.Coordinates.X <= enemy.Coordinates.X + 1;
+                bool checkY = ourHero.Coordinates.Y >= enemy.Coordinates.Y - 1
+                              && ourHero.Coordinates.Y <= enemy.Coordinates.Y + 1;
+                if (checkX && checkY)
+                {
+                    this.EnemyAttack(ourHero, enemy);
+
+                }
+
+            }
+        }
+
+        private void EnemyAttack(Hero ourHero, Enemy enemy)
+        {
+            ourHero.CurrentHealth -= enemy.AttackStrength;
+            Thread.Sleep(ATTACK_INTERVAL);
         }
         
         private bool GameOver()
@@ -173,6 +197,25 @@
             }
 
             return hero;
+        }
+        
+        private List<Enemy> GetEnemies()
+        {
+            var enemy = new List<Enemy>();
+            foreach (var unit in this.units)
+            {
+                if (unit.Value is Enemy)
+                {
+                    enemy.Add(unit.Value as Enemy);
+                }
+            }
+
+            if (enemy == null)
+            {
+                throw new ArgumentNullException("enemy", "Cannot find enemy.");
+            }
+
+            return enemy;
         }
 
         private Direction GetDirection(IUnit unit)
