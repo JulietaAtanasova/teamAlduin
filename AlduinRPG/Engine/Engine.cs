@@ -1,4 +1,6 @@
-﻿namespace AlduinRPG.Engine
+﻿using AlduinRPG.Views;
+
+namespace AlduinRPG.Engine
 {
     using System;
     using System.Collections.Generic;
@@ -14,30 +16,35 @@
         private readonly GameMap gameMap;
         private readonly Random random = new Random();
         private Dictionary<Coordinates, IUnit> units;
+        private GameForm gameForm;
+        private RendererView renderer;
 
-        public Engine(GameMap gameMap)
+        public Engine(GameForm gameForm, GameMap gameMap)
         {
             this.gameMap = gameMap;
             this.ObstacleCount = gameMap.Width;
             this.EnemyCount = gameMap.Height;
             this.units = new Dictionary<Coordinates, IUnit>();
+            this.gameForm = gameForm;
+            this.renderer = new RendererView(this.gameForm);
         }
 
         public void Run()
         {
             this.Initialize();
-            while (true)
-            {
-                GetHero().Recover();
-                this.MoveEnemies();
-                this.ProcessCollisions();
-                if (this.GameOver())
-                {
-                    break;
-                }
-                // TODO Draw
-                Thread.Sleep(Engine.RefreshRate);
-            }
+            renderer.Render(units,gameMap);
+            //while (true)
+            //{
+            //    GetHero().Recover();
+            //    this.MoveEnemies();
+            //    this.ProcessCollisions();
+            //    if (this.GameOver())
+            //    {
+            //        break;
+            //    }
+            //    renderer.Render(units, gameMap);
+            //    Thread.Sleep(Engine.RefreshRate);
+            //}
 
         }
 
@@ -219,6 +226,7 @@
                 if (unit.Value is Hero)
                 {
                     hero = unit.Value as Hero;
+                    break;
                 }
             }
 

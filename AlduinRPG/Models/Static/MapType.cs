@@ -2,8 +2,8 @@
 {
     public enum MapType
     {
-        Small = 100,
-        Medium = 200,
-        Big = 400,
+        Small = 10,
+        Medium = 20,
+        Big = 40,
     }
 }

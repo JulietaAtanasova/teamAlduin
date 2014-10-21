@@ -4,6 +4,7 @@
     {
         private int x;
         private int y;
+
         public Coordinates(int x, int y) : this()
         {
             this.X = x;

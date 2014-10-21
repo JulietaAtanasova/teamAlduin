@@ -1,19 +1,37 @@
 ﻿using System.Drawing;
+using System.Xml.Serialization;
+using Telerik.WinControls.UI;
 
 namespace AlduinRPG.Views
 {
     using Interfaces;
     using System.Collections.Generic;
     using Models;
-    using System.Windows.Forms;
-    using System.Linq;
 
     public class RendererView
     {
         private GameForm gameForm;
         private Hero hero;
-        
+        private string bossPath,
+            bushPath,
+            chestPath,
+            enemyPath,
+            magicianPath,
+            rockPath,
+            teleportPath = "../../Resources/teleport.png",
+            treePath,
+            warriorPath;
 
+        private Image bossImage,
+            bushImage,
+            chestImage,
+            enemyImage,
+            magicianImage,
+            rockImage,
+            teleportImage,
+            treeImage,
+            warriorImage;
+        
         public RendererView(GameForm gameForm)
         {
             this.gameForm = gameForm;
@@ -22,8 +40,22 @@ namespace AlduinRPG.Views
         public void Render(Dictionary<Coordinates, IUnit> units, GameMap gameMap)
         {
             Hero hero = GetHeroData(units);
+            LoadImages();
             RenderFrame();
             RenderUnits(units);
+        }
+
+        private void LoadImages()
+        {
+            //bossImage = Image.FromFile(bossPath);
+            //bushImage = Image.FromFile(bushPath);
+            //chestImage = Image.FromFile(chestPath);
+            //enemyImage = Image.FromFile(enemyPath);
+            //magicianImage = Image.FromFile(magicianPath);
+            //rockImage = Image.FromFile(rockPath);
+            teleportImage = Image.FromFile(teleportPath);
+            //treeImage = Image.FromFile(treePath);
+            //warriorImage = Image.FromFile(warriorPath);
         }
 
         private void RenderFrame()
@@ -33,13 +65,12 @@ namespace AlduinRPG.Views
 
         private void RenderUnits(Dictionary<Coordinates, IUnit> units)
         {
-            foreach (var unit in units)
-            {
-                var unitType = unit.GetType().Name;
-                var coordinates = unit.Key;
+            RenderObject.RenderImage(gameForm, teleportImage, 0, 0, 80, 69);
+            //foreach (var unit in units)
+            //{
+            //    var unitType = unit.GetType().Name;
+            //    var coordinates = unit.Key;
 
-                RenderObject.RenderImage(gameForm, "Resources/teleport.png", 0, 0, 80, 69);
-                ;
                 //switch (unitType)
                 //{
                 //    case "Warrior":
@@ -77,7 +108,7 @@ namespace AlduinRPG.Views
                 //    default:
                 //        break;
                 //}
-            }
+            //}
         }
         
         private static Hero GetHeroData(Dictionary<Coordinates, IUnit> units)
