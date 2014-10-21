@@ -12,25 +12,27 @@ namespace AlduinRPG.Views
     {
         private GameForm gameForm;
         private Hero hero;
-        private string bossPath,
-            bushPath,
-            chestPath,
-            enemyPath,
-            magicianPath,
-            rockPath,
-            teleportPath = "../../Resources/teleport.png",
-            treePath,
-            warriorPath;
+        private const string BossPath = "../../Resources/boss70x70.png";
+        private const string BushPath = "../../Resources/bush.png";
+        private const string ChestPath = "../../Resources/chest70x70.png";
+        private const string EnemyPath = "../../Resources/enemy70x70.png";
+        private const string FemaleWarriorPath = "../../Resources/female-warrior70x70.png";
+        private const string MagicianPath = "../../Resources/magician70x70.png";
+        private const string RockPath = "../../Resources/rock70x70.png";
+        private const string TeleportPath = "../../Resources/teleport.png";
+        private const string TreePath = "../../Resources/tree.png";
+        private const string WarriorPath = "../../Resources/warrior70x70.png";
 
-        private Image bossImage,
-            bushImage,
-            chestImage,
-            enemyImage,
-            magicianImage,
-            rockImage,
-            teleportImage,
-            treeImage,
-            warriorImage;
+        private Image bossImage;
+        private Image bushImage;
+        private Image chestImage;
+        private Image enemyImage;
+        private Image femaleWarriorImage;
+        private Image magicianImage;
+        private Image rockImage;
+        private Image teleportImage;
+        private Image treeImage;
+        private Image warriorImage;
         
         public RendererView(GameForm gameForm)
         {
@@ -48,15 +50,16 @@ namespace AlduinRPG.Views
 
         private void LoadImages()
         {
-            //bossImage = Image.FromFile(bossPath);
-            //bushImage = Image.FromFile(bushPath);
-            //chestImage = Image.FromFile(chestPath);
-            //enemyImage = Image.FromFile(enemyPath);
-            //magicianImage = Image.FromFile(magicianPath);
-            //rockImage = Image.FromFile(rockPath);
-            teleportImage = Image.FromFile(teleportPath);
-            //treeImage = Image.FromFile(treePath);
-            //warriorImage = Image.FromFile(warriorPath);
+            bossImage = Image.FromFile(BossPath);
+            bushImage = Image.FromFile(BushPath);
+            chestImage = Image.FromFile(ChestPath);
+            enemyImage = Image.FromFile(EnemyPath);
+            femaleWarriorImage = Image.FromFile(FemaleWarriorPath);
+            magicianImage = Image.FromFile(MagicianPath);
+            rockImage = Image.FromFile(RockPath);
+            teleportImage = Image.FromFile(TeleportPath);
+            treeImage = Image.FromFile(TreePath);
+            warriorImage = Image.FromFile(WarriorPath);
         }
 
         private void RenderFrame()
