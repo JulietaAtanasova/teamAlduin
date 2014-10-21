@@ -1,12 +1,11 @@
-﻿using AlduinRPG.Views;
-
-namespace AlduinRPG.Engine
+﻿namespace AlduinRPG.Engine
 {
     using System;
     using System.Collections.Generic;
     using Interfaces;
     using Models;
     using System.Threading;
+    using Views;
 
     public class Engine
     {
@@ -32,19 +31,18 @@ namespace AlduinRPG.Engine
         public void Run()
         {
             this.Initialize();
-            renderer.Render(units,gameMap);
-            //while (true)
-            //{
-            //    GetHero().Recover();
-            //    this.MoveEnemies();
-            //    this.ProcessCollisions();
-            //    if (this.GameOver())
-            //    {
-            //        break;
-            //    }
-            //    renderer.Render(units, gameMap);
-            //    Thread.Sleep(Engine.RefreshRate);
-            //}
+            while (true)
+            {
+                GetHero().Recover();
+                this.MoveEnemies();
+                this.ProcessCollisions();
+                if (this.GameOver())
+                {
+                    break;
+                }
+                renderer.Render(units, gameMap);
+                Thread.Sleep(Engine.RefreshRate);
+            }
 
         }
 
@@ -72,6 +70,7 @@ namespace AlduinRPG.Engine
         private void ResurrectDeadEnemies()
         {
             var enemies = GetEnemies();
+
             foreach (var enemy in enemies)
             {
                 if (enemy.IsAlive == false)
@@ -324,12 +323,6 @@ namespace AlduinRPG.Engine
             {
                 if (units.ContainsKey(magic.Coordinates))
                 {
-                    if (magic.Coordinates == hero.Coordinates)
-                    {
-                        // this should not happen
-                        continue;
-                    }
-
                     if (units[magic.Coordinates] is Enemy)
                     {
                         Enemy enemy = units[magic.Coordinates] as Enemy;
@@ -342,7 +335,7 @@ namespace AlduinRPG.Engine
         private void HeroAttack()
         {
             Hero hero = GetHero();
-            var enemyInRange = FindEnemyInRange();
+            var enemyInRange = this.FindEnemyInRange();
             if (enemyInRange == null)
             {
                 return;

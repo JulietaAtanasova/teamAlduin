@@ -43,6 +43,7 @@ namespace AlduinRPG.Views
             LoadImages();
             RenderFrame();
             RenderUnits(units);
+            // TODO: clear objects 
         }
 
         private void LoadImages()
