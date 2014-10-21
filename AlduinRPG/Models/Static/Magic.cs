@@ -3,8 +3,9 @@
     public class Magic : StaticUnit
     {
         private int damagePower;
-        public Magic(Coordinates coordinates) : base(coordinates)
+        public Magic(Coordinates coordinates, int damagePower) : base(coordinates)
         {
+            this.DamagePower = damagePower;
         }
 
         public int DamagePower { get; set; }

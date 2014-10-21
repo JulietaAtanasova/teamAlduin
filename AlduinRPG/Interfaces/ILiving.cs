@@ -4,7 +4,7 @@ namespace AlduinRPG.Interfaces
 {
     public interface ILiving
     {
-        int PhysicallAttack();
+        int PhysicalAttack();
         
         void TakeDamage(int attack);
                 

@@ -12,6 +12,7 @@
         private int attackStrength;
         private int level;
         private Direction direction;
+
         protected LivingUnit(Coordinates coordinates, int maxHealth, int attackStrength, int level, bool isAlive = true)
             : base(coordinates)
         {
@@ -22,13 +23,25 @@
             this.IsAlive = isAlive;
         }
 
-        public bool IsAlive { get; set; }
+        public bool IsAlive
+        {
+            get
+            {
+                isAlive = this.CurrentHealth > 0;
+                return isAlive;
+            }
+            set
+            {
+                isAlive = value;
+            }
+        }
+
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
         public int AttackStrength { get; set; }
         public int Level { get; set; }
         public Direction Direction { get; set; }
-        public int PhysicallAttack()
+        public int PhysicalAttack()
         {
             return this.AttackStrength;
         }
@@ -39,6 +52,7 @@
         {
             this.Coordinates = coordinates;
             this.CurrentHealth = this.MaxHealth;
+            this.IsAlive = true;
         }
 
         public void TakeDamage(int attack)

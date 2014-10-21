@@ -56,6 +56,12 @@ namespace AlduinRPG.Models
             }
         }
 
+        public void Recover()
+        {
+            this.RecoverHealth();
+            this.RecoverMana();
+        }
+
         public void RecoverMana()
         {
             this.CurrentMana += this.RecoverySpeedMana;
@@ -74,9 +80,9 @@ namespace AlduinRPG.Models
             }
         }
 
-        public List<Magic> CastMagic(Magic magic)
+        public List<Magic> CastMagic()
         {
-            int magicRange = this.Level + 1;
+            int magicRange = this.GetMagicRange();
             List<Magic> magicFields = new List<Magic>();
 
             for (int x = this.Coordinates.X - magicRange; x <= this.Coordinates.X + magicRange; x++)
@@ -88,11 +94,32 @@ namespace AlduinRPG.Models
                         continue;
                     }
 
-                    magicFields.Add(new Magic(new Coordinates(x, y)));
+                    magicFields.Add(new Magic(new Coordinates(x, y), this.AttackStrength));
                 }
             }
 
             return magicFields;
+        }
+
+        private int GetMagicRange()
+        {
+            int magicRange;
+            if (this.CurrentMana >= this.MaxMana * 0.6)
+            {
+                magicRange = this.Level + 1;
+                this.CurrentMana -= (int)(this.MaxMana * 0.6);
+            }
+            else if (this.CurrentMana >= this.MaxMana * 0.3)
+            {
+                magicRange = this.Level;
+                this.CurrentMana -= (int)(this.MaxMana * 0.3);
+            }
+            else
+            {
+                magicRange = -1; // not to cast any magics
+            }
+
+            return magicRange;
         }
 
         public void GainExperience()
@@ -104,6 +131,7 @@ namespace AlduinRPG.Models
         {
             base.Resurrect(coordinates);
             this.CurrentMana = this.MaxMana;
+            this.CurrentLives--;
         }
 
         public override Coordinates Move(Direction direction)
