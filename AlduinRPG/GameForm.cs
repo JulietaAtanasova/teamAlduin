@@ -1,8 +1,8 @@
 ﻿namespace AlduinRPG
 {
-    using Views;
     using System;
     using System.Windows.Forms;
+    using Models;
 
     public partial class GameForm : Form
     {
@@ -13,8 +13,9 @@
 
         private void GameForm_Load(object sender, EventArgs e)
         {
-            RendererView painter = new RendererView(this);
-
+            GameMap gameMap = new GameMap(MapType.Medium);
+            var engine = new Engine.Engine(this, gameMap);
+            engine.Run();
         }
     }
 }
