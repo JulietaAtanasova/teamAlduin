@@ -156,6 +156,9 @@
                 case HeroType.Warrior:
                     this.units.Add(coordinates, new Warrior(coordinates));
                     break;
+                case HeroType.FemaleWarrior:
+                    this.units.Add(coordinates, new FemaleWarrior(coordinates));
+                    break;
                 case HeroType.Magician:
                     this.units.Add(coordinates, new Magician(coordinates));
                     break;
