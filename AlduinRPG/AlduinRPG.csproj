@@ -75,6 +75,7 @@
     <Compile Include="Interfaces\IRenderable.cs" />
     <Compile Include="Interfaces\IUnit.cs" />
     <Compile Include="Interfaces\IUserInput.cs" />
+    <Compile Include="Models\Living\FemaleWarrior.cs" />
     <Compile Include="Models\Static\Bonus.cs" />
     <Compile Include="Models\Living\BossEnemy.cs" />
     <Compile Include="Models\Static\Chest.cs" />
@@ -100,18 +101,9 @@
     <Compile Include="Models\Static\Magic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\BossView.cs" />
-    <Compile Include="Views\BushView.cs" />
-    <Compile Include="Views\ChestView.cs" />
-    <Compile Include="Views\EnemyView.cs" />
     <Compile Include="Views\KeyboardController.cs" />
-    <Compile Include="Views\MagicianView.cs" />
     <Compile Include="Views\RendererView.cs" />
     <Compile Include="Views\RenderObject.cs" />
-    <Compile Include="Views\RockView.cs" />
-    <Compile Include="Views\TeleportView.cs" />
-    <Compile Include="Views\TreeView.cs" />
-    <Compile Include="Views\WarriorView.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
