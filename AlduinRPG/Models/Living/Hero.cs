@@ -1,41 +1,119 @@
-﻿using System.Collections.Generic;
-
-namespace AlduinRPG.Models
+﻿namespace AlduinRPG.Models
 {
+    using System.Collections.Generic;
+
     public abstract class Hero : LivingUnit
     {
         private const int MaxLives = 5;
         private const int MaxLevelExpirience = 100;
+        private const int experienceIncreasment = 20;
         private int maxMana;
         private int currentMana;
         private int recoverySpeedMana;
-        private int experienceIncreasment;
         private int currentExperience;
+        private int maxExperience;
         private int currentLives;
         private int recoverySpeedHealth;
 
-        public Hero(Coordinates coordinates, int maxHealth, int attackStrength, int level,
-            int maxMana, int currentExperience, int currentLives, int recoverySpeedHealth, int recoverySpeedMana)
+        protected Hero(
+            Coordinates coordinates,
+            HeroType heroType,
+            int maxHealth,
+            int attackStrength,
+            int level,
+            int maxMana,
+            int currentExperience,
+            int maxExpirience,
+            int currentLives,
+            int recoverySpeedHealth,
+            int recoverySpeedMana)
             : base(coordinates, maxHealth, attackStrength, level)
         {
+            this.HeroType = heroType;
             this.CurrentMana = maxMana;
             this.MaxMana = maxMana;
             this.CurrentExperience = currentExperience;
             this.CurrentLives = currentLives;
             this.RecoverySpeedHealth = recoverySpeedHealth;
             this.RecoverySpeedMana = recoverySpeedMana;
+            this.MaxExperience = maxExpirience;
         }
 
-        public int MaxMana { get; set; }
-        public int CurrentMana { get; set; }
-        public int RecoverySpeedMana { get; set; }
-        public int ExperienceIncreasment { get; set; }
-        public int CurrentExperience { get; set; }
-        public int CurrentLives { get; set; }
-        public int RecoverySpeedHealth { get; set; }
-        public HeroType HeroType { get; set; }
+        public int MaxMana
+        {
+            get { return this.maxMana; }
 
-        private void TakeChest(Chest chest)
+            protected set { this.maxMana = value; }
+        }
+
+        public int CurrentMana
+        {
+            get { return this.currentMana; }
+
+            protected set
+            {
+                if (value > this.MaxMana)
+                {
+                    value = this.MaxMana;
+                }
+
+                this.currentMana = value;
+            }
+        }
+
+        public int RecoverySpeedMana
+        {
+            get { return this.recoverySpeedMana; }
+
+            protected set { this.recoverySpeedMana = value; }
+        }
+
+        public int CurrentExperience
+        {
+            get { return this.currentExperience; }
+
+            protected set
+            {
+                this.currentExperience = value;
+            }
+        }
+
+        public int MaxExperience
+        {
+            get { return maxExperience; }
+
+            set { this.maxExperience = value; }
+        }
+
+        public int CurrentLives
+        {
+            get { return this.currentLives; }
+
+            protected set
+            {
+                if (value < 0)
+                {
+                    value = 0;
+                }
+
+                this.currentLives = value;
+            }
+        }
+
+        public int RecoverySpeedHealth
+        {
+            get { return this.recoverySpeedHealth; }
+
+            protected set { this.recoverySpeedHealth = value; }
+        }
+
+        public HeroType HeroType
+        {
+            get;
+            protected set;
+        }
+
+        public void TakeChest(Chest chest)
         {
             switch (chest.ChestType)
             {
@@ -65,19 +143,11 @@ namespace AlduinRPG.Models
         public void RecoverMana()
         {
             this.CurrentMana += this.RecoverySpeedMana;
-            if (this.CurrentMana > this.MaxMana)
-            {
-                this.CurrentMana = this.MaxMana;
-            }
         }
 
         public void RecoverHealth()
         {
             this.CurrentHealth += this.RecoverySpeedHealth;
-            if (this.CurrentHealth > this.MaxHealth)
-            {
-                this.CurrentHealth = this.MaxHealth;
-            }
         }
 
         public List<Magic> CastMagic()
@@ -122,9 +192,23 @@ namespace AlduinRPG.Models
             return magicRange;
         }
 
-        public void GainExperience()
+        public void GainExperience(EnemyType enemyType)
         {
-            this.CurrentExperience += this.ExperienceIncreasment;
+            switch (enemyType)
+            {
+                case EnemyType.WeakEnemy:
+                    this.CurrentExperience += Hero.experienceIncreasment;
+                    break;
+                case EnemyType.BossEnemy:
+                    this.CurrentExperience += Hero.experienceIncreasment * 2;
+                    break;
+            }
+            
+            if (this.currentExperience >= this.MaxExperience)
+            {
+                this.currentExperience = 0;
+                this.Level ++;
+            }
         }
 
         public override void Resurrect(Coordinates coordinates)
@@ -134,21 +218,6 @@ namespace AlduinRPG.Models
             this.CurrentLives--;
         }
 
-        public override Coordinates Move(Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Up:
-                    return new Coordinates(this.Coordinates.X, this.Coordinates.Y - 1);
-                case Direction.Right:
-                    return new Coordinates(this.Coordinates.X + 1, this.Coordinates.Y);
-                case Direction.Left:
-                    return new Coordinates(this.Coordinates.X - 1, this.Coordinates.Y);
-                case Direction.Down:
-                    return new Coordinates(this.Coordinates.X, this.Coordinates.Y + 1);
-                default:
-                    return new Coordinates(this.Coordinates.X, this.Coordinates.Y);
-            }
-        }
+
     }
 }

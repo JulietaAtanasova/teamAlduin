@@ -2,17 +2,19 @@
 {
     public abstract class Enemy : LivingUnit
     {
-        protected Enemy(Coordinates coordinates, int maxHealth, int attackStrength, int level)
+        private EnemyType enemyType;
+
+        protected Enemy(EnemyType enemyType, Coordinates coordinates, int maxHealth, int attackStrength, int level)
             : base(coordinates, maxHealth, attackStrength, level)
         {
+            this.EnemyType = enemyType;
         }
 
-        public EnemyType EnemyType { get; set; }
-
-        public override Coordinates Move(Direction direction)
+        public EnemyType EnemyType
         {
-            // TODO : random logic???
-            return new Coordinates(this.Coordinates.X, this.Coordinates.Y);
+            get { return this.enemyType; }
+
+            set { this.enemyType = value; }
         }
     }
 }

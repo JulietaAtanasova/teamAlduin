@@ -11,10 +11,15 @@
         private int currentHealth;
         private int attackStrength;
         private int level;
-        private Direction direction;
 
-        protected LivingUnit(Coordinates coordinates, int maxHealth, int attackStrength, int level, bool isAlive = true)
+        protected LivingUnit(
+            Coordinates coordinates, 
+            int maxHealth, 
+            int attackStrength, 
+            int level, 
+            bool isAlive = true)
             : base(coordinates)
+
         {
             this.CurrentHealth = maxHealth;
             this.MaxHealth = maxHealth;
@@ -30,23 +35,82 @@
                 isAlive = this.CurrentHealth > 0;
                 return isAlive;
             }
-            set
+            protected set
             {
                 isAlive = value;
             }
         }
 
-        public int MaxHealth { get; set; }
-        public int CurrentHealth { get; set; }
-        public int AttackStrength { get; set; }
-        public int Level { get; set; }
-        public Direction Direction { get; set; }
+        public int MaxHealth
+        {
+            get
+            { return this.maxHealth; }
+
+            protected set
+            {
+                this.maxHealth = value;
+            }
+        }
+
+        public int CurrentHealth
+        {
+            get { return this.currentHealth; }
+
+            protected set
+            {
+                if (value < 0)
+                {
+                    value = 0;
+                }
+
+                if (value> this.MaxHealth)
+                {
+                    value = this.MaxHealth;
+                }
+
+                this.currentHealth = value;
+            }
+        }
+
+        public int AttackStrength
+        {
+            get { return this.attackStrength; }
+
+            protected set { this.attackStrength = value; }
+        }
+
+        public int Level
+        {
+            get { return this.level; }
+
+            protected set { this.level = value; }
+        }
+
         public int PhysicalAttack()
         {
             return this.AttackStrength;
         }
 
-        public abstract Coordinates Move(Direction direction);
+        public void Move(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    this.Coordinates = new Coordinates(this.Coordinates.X, this.Coordinates.Y - 1);
+                    break;
+                case Direction.Right:
+                    this.Coordinates = new Coordinates(this.Coordinates.X + 1, this.Coordinates.Y);
+                    break;
+                case Direction.Left:
+                    this.Coordinates = new Coordinates(this.Coordinates.X - 1, this.Coordinates.Y);
+                    break;
+                case Direction.Down:
+                    this.Coordinates = new Coordinates(this.Coordinates.X, this.Coordinates.Y + 1);
+                    break;
+                default:
+                    throw new ArgumentException("Invalid direction", "direction" );
+            }
+        }
 
         public virtual void Resurrect(Coordinates coordinates)
         {
@@ -59,6 +123,7 @@
         {
             this.CurrentHealth -= attack;
         }
+
 
     }
 }

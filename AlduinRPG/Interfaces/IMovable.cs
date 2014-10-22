@@ -2,7 +2,6 @@
 {
     public interface IMovable
     {
-        Direction Direction { get; set; }
-        Coordinates Move(Direction direction);
+        void Move(Direction direction);
     }
 }
