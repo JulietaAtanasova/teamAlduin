@@ -7,6 +7,7 @@ namespace AlduinRPG.Views
     using Models;
     using System.Drawing;
     using System;
+    using System.Windows.Forms;
 
     public class RendererView
     {
@@ -14,20 +15,32 @@ namespace AlduinRPG.Views
         private const string BossPath = "../../Resources/boss70x70.png";
         private const string BushPath = "../../Resources/bush.png";
         private const string ChestPath = "../../Resources/chest70x70.png";
+        private const string ChooseFemaleWarriorPath = "../../Resources/chooseFemaleWarrior.png";
+        private const string ChooseMagicianPath = "../../Resources/chooseMagician.png";
+        private const string ChooseWarriorPath = "../../Resources/chooseWarrior.png";
         private const string EnemyPath = "../../Resources/enemy70x70.png";
         private const string FemaleWarriorPath = "../../Resources/female-warrior70x70.png";
+        private const string LogoPath = "../../Resources/logo.png";
         private const string MagicianPath = "../../Resources/magician70x70.png";
         private const string RockPath = "../../Resources/rock70x70.png";
         private const string TeleportPath = "../../Resources/teleport.png";
         private const string TreePath = "../../Resources/tree.png";
         private const string WarriorPath = "../../Resources/warrior70x70.png";
-        private const string backgroundPath = "../../Resources/grass70x70.png";
+        private const string BackgroundPath = "../../Resources/grass70x70.png";
+        private const Color Yellow = Color.FromArgb(255, 231, 182, 54);
+        private const Color Gray = Color.FromArgb(0, 61, 55, 55);
+        private const Font FontFamily = new Font("Sans-serif", 12, FontStyle.Bold);
+        private const Size ButtonSize = new Size(150, 30);
 
         private Image bossImage;
         private Image bushImage;
         private Image chestImage;
+        private Image chooseFemaleWarrior;
+        private Image chooseWarrior;
+        private Image chooseMagician;
         private Image enemyImage;
         private Image femaleWarriorImage;
+        private Image logo;
         private Image magicianImage;
         private Image rockImage;
         private Image teleportImage;
@@ -68,7 +81,7 @@ namespace AlduinRPG.Views
             teleportImage = Image.FromFile(TeleportPath);
             treeImage = Image.FromFile(TreePath);
             warriorImage = Image.FromFile(WarriorPath);
-            backgroundImage = Image.FromFile(backgroundPath);
+            backgroundImage = Image.FromFile(BackgroundPath);
         }
 
         private void RenderFrame()
@@ -76,6 +89,28 @@ namespace AlduinRPG.Views
             gameForm.BackgroundImage = backgroundImage;
         }
 
+        public void RenderStartScreen(GameForm gameForm)
+        {
+            gameForm.BackColor = Gray;
+            PictureBox logoBox = CreatePictureBox(logo, 450, 200);
+            logoBox.Location = new Point(gameForm.Height / 2 - 60, 200);
+            gameForm.Controls.Add(logoBox);
+
+            List<Button> buttons = new List<Button>();
+            Button play = new Button();
+            play.Text = "Play";
+            play.Top = gameForm.Height / 2 + 80;
+            buttons.Add(play);
+            play.Click += new EventHandler(gameForm.PlayClick);
+
+            Button exit = new Button();
+            buttons.Add(exit);
+            exit.Text = "Exit";
+            exit.Top = gameForm.Height / 2 + 120;
+            exit.Click += new EventHandler(gameForm.ExitClick);
+
+            RenderButtons(buttons, gameForm);
+        } 
         private void RenderUnits(Units units)
         {
             this.RenderHero(units.Hero);
@@ -186,6 +221,30 @@ namespace AlduinRPG.Views
                     RenderObject.RenderImage(gameForm, chestImage, chest.Key, UnitOffset);
                 }
             }
+        }
+
+        private void RenderButtons(List<Button> buttons, GameForm gameForm)
+        {
+            foreach (var button in buttons)
+            {
+                button.Size = ButtonSize;
+                button.Left = gameForm.Width / 2 - button.Width / 2;
+                button.Font = FontFamily;
+                button.TabStop = false;
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderSize = 0;
+                button.BackColor = Yellow;
+                button.ForeColor = Gray;
+                gameForm.Controls.Add(button);
+            }
+        }
+
+        public static PictureBox CreatePictureBox(Image image, int width, int height)
+        {
+            PictureBox box = new PictureBox();
+            box.Image = image;
+            box.Size = new Size(width, height);
+            return box;
         }
     }
 }

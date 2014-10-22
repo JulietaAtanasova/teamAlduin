@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameForm));
             this.SuspendLayout();
             // 
             // GameForm
@@ -35,8 +36,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 542);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GameForm";
-            this.Text = "The Legend Of Gosho / Pesho the grey";
+            this.Text = "The Dragon Slayer";
             this.Load += new System.EventHandler(this.GameForm_Load);
             this.ResumeLayout(false);
 
