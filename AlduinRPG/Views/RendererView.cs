@@ -1,4 +1,8 @@
-﻿namespace AlduinRPG.Views
+﻿using System.Collections;
+using System.Collections.Generic;
+using AlduinRPG.Interfaces;
+
+namespace AlduinRPG.Views
 {
     using Models;
     using System.Drawing;
@@ -37,14 +41,19 @@
         public RendererView(GameForm gameForm)
         {
             this.gameForm = gameForm;
+            LoadImages();
         }
 
         public void Render(Units units, GameMap gameMap)
         {
-            LoadImages();
+            ClearScreen();
             RenderFrame();
             RenderUnits(units);
-            //gameForm.Controls.Clear();
+        }
+
+        private void ClearScreen()
+        {
+            gameForm.Controls.Clear();
         }
 
         private void LoadImages()
@@ -69,67 +78,113 @@
 
         private void RenderUnits(Units units)
         {
-            // Render hero
-            switch (units.Hero.HeroType)
+            this.RenderHero(units.Hero);
+            this.RenderEnemies(units.Enemies, units.Hero);
+            this.RenderTeleports(units.Teleports, units.Hero);
+            this.RenderObstacles(units.Obstacles, units.Hero);
+            this.RenderChests(units.Chests, units.Hero);
+        }
+
+        private bool toRender(Coordinates heroCoordinates, Coordinates unitCoordinates)
+        {
+            // todo: constants
+            bool collisionByX = unitCoordinates.X >= heroCoordinates.X - 4 &&
+                                unitCoordinates.X <= heroCoordinates.X + 4;
+            bool collisionByY = unitCoordinates.Y >= heroCoordinates.Y - 3 &&
+                                unitCoordinates.Y <= heroCoordinates.Y + 3;
+            if (collisionByX && collisionByY || true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void RenderHero(Hero hero)
+        {
+            switch (hero.HeroType)
             {
                 case HeroType.FemaleWarrior:
-                    RenderObject.RenderImage(gameForm, femaleWarriorImage, units.Hero.Coordinates, UnitOffset);
+                    RenderObject.RenderImage(gameForm, femaleWarriorImage, hero.Coordinates, UnitOffset);
                     break;
                 case HeroType.Warrior:
-                    RenderObject.RenderImage(gameForm, warriorImage, units.Hero.Coordinates, UnitOffset);
+                    RenderObject.RenderImage(gameForm, warriorImage, new Coordinates(4, 3), UnitOffset);
                     break;
                 case HeroType.Magician:
-                    RenderObject.RenderImage(gameForm, magicianImage, units.Hero.Coordinates, UnitOffset);
+                    RenderObject.RenderImage(gameForm, magicianImage, hero.Coordinates, UnitOffset);
                     break;
                 default:
                     throw new NotImplementedException("Hero view not implemented.");
             }
+        }
 
-            // Render enemies.
-            foreach (var enemy in units.Enemies)
+        private void RenderEnemies(Dictionary<Coordinates, Enemy> enemies, Hero hero)
+        {
+            foreach (var enemy in enemies)
             {
-                switch (enemy.Value.EnemyType)
+                if (toRender(hero.Coordinates, enemy.Key))
                 {
-                    case EnemyType.BossEnemy:
-                        RenderObject.RenderImage(gameForm, bossImage, enemy.Key, UnitOffset);
-                        break;
-                    case EnemyType.WeakEnemy:
-                        RenderObject.RenderImage(gameForm, enemyImage, enemy.Key, UnitOffset);
-                        break;
-                    default:
-                        throw new NotImplementedException("Enemy view not implemented.");
+                    RenderObject.RenderProgressBar(gameForm, enemy.Value.MaxHealth, enemy.Value.CurrentHealth, enemy.Key, Color.Green, ProgressBarOffset);
+                    switch (enemy.Value.EnemyType)
+                    {
+                        case EnemyType.BossEnemy:
+                            RenderObject.RenderImage(gameForm, bossImage, enemy.Key, UnitOffset);
+                            break;
+                        case EnemyType.WeakEnemy:
+                            RenderObject.RenderImage(gameForm, enemyImage, enemy.Key, UnitOffset);
+                            break;
+                        default:
+                            throw new NotImplementedException("Enemy view not implemented.");
+                    }
                 }
             }
+        }
 
-            // Render each teleport
-            foreach (var teleport in units.Teleports)
+        private void RenderTeleports(Dictionary<Coordinates, Teleportation> teleports, Hero hero)
+        {
+            foreach (var teleport in teleports)
             {
-                RenderObject.RenderImage(gameForm, teleportImage, teleport.Key, UnitOffset);
-            }
-
-            // Render obstacles
-            foreach (var obstacle in units.Obstacles)
-            {
-                switch (obstacle.Value.ObstacleType)
+                if (toRender(hero.Coordinates, teleport.Key))
                 {
-                    case ObstacleType.Bush:
-                        RenderObject.RenderImage(gameForm, bushImage, obstacle.Key, UnitOffset);
-                        break;
-                    case ObstacleType.Rock:
-                        RenderObject.RenderImage(gameForm, rockImage, obstacle.Key, UnitOffset);
-                        break;
-                    case ObstacleType.Tree:
-                        RenderObject.RenderImage(gameForm, treeImage, obstacle.Key, UnitOffset);
-                        break;
-                    default:
-                        throw new NotImplementedException("Obstacle view not implemented.");
+                    RenderObject.RenderImage(gameForm, teleportImage, teleport.Key, UnitOffset);
                 }
             }
+        }
 
-            // Render chests
-            foreach (var chest in units.Chests)
+        private void RenderObstacles(Dictionary<Coordinates, Obstacle> obstacles, Hero hero)
+        {
+            foreach (var obstacle in obstacles)
             {
-                RenderObject.RenderImage(gameForm, chestImage, chest.Key, UnitOffset);
+                if (toRender(hero.Coordinates, obstacle.Key))
+                {
+                    switch (obstacle.Value.ObstacleType)
+                    {
+                        case ObstacleType.Bush:
+                            RenderObject.RenderImage(gameForm, bushImage, obstacle.Key, UnitOffset);
+                            break;
+                        case ObstacleType.Rock:
+                            RenderObject.RenderImage(gameForm, rockImage, obstacle.Key, UnitOffset);
+                            break;
+                        case ObstacleType.Tree:
+                            RenderObject.RenderImage(gameForm, treeImage, obstacle.Key, UnitOffset);
+                            break;
+                        default:
+                            throw new NotImplementedException("Obstacle view not implemented.");
+                    }
+                }
+            }
+        }
+
+        private void RenderChests(Dictionary<Coordinates, Chest> chests, Hero hero)
+        {
+            foreach (var chest in chests)
+            {
+                if (toRender(hero.Coordinates, chest.Key))
+                {
+                    RenderObject.RenderImage(gameForm, chestImage, chest.Key, UnitOffset);
+                }
             }
         }
     }

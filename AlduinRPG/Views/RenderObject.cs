@@ -10,6 +10,7 @@
         private const int ImageSize = 70;
         private const int ProgressBarWidth = 100;
         private const int ProgressBarHeight = 20;
+        private static readonly Coordinates offset = new Coordinates(70, 70);
 
         public static void RenderImage(GameForm gameForm, Image image, Coordinates coordinates, Coordinates offset = default(Coordinates))
         {
@@ -33,11 +34,12 @@
             }
         }
 
-        public static void RenderProgressBar(GameForm gameForm, int maxValue, int currentValue, Coordinates coordinates, Color color)
+        public static void RenderProgressBar(GameForm gameForm, int maxValue, int currentValue, Coordinates coordinates, Color color, Coordinates offsetCoordinates)
         {
+            Coordinates barCoordinates = (coordinates - offsetCoordinates) * offset;
             var progressBar = new ProgressBar();
             progressBar.Size = new Size(ProgressBarWidth, ProgressBarHeight);
-            progressBar.Location = new Point(coordinates.X, coordinates.Y);
+            progressBar.Location = new Point(barCoordinates.X, barCoordinates.Y);
             progressBar.Maximum = maxValue;
             progressBar.Value = currentValue;
             progressBar.BackColor = color;
