@@ -5,8 +5,7 @@
     public abstract class Hero : LivingUnit
     {
         private const int MaxLives = 5;
-        private const int MaxLevelExpirience = 100;
-        private const int experienceIncreasment = 20;
+        private const int ExperienceIncreasment = 20;
         private int maxMana;
         private int currentMana;
         private int recoverySpeedMana;
@@ -197,10 +196,10 @@
             switch (enemyType)
             {
                 case EnemyType.WeakEnemy:
-                    this.CurrentExperience += Hero.experienceIncreasment;
+                    this.CurrentExperience += Hero.ExperienceIncreasment;
                     break;
                 case EnemyType.BossEnemy:
-                    this.CurrentExperience += Hero.experienceIncreasment * 2;
+                    this.CurrentExperience += Hero.ExperienceIncreasment * 2;
                     break;
             }
             

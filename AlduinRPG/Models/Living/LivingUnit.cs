@@ -13,13 +13,12 @@
         private int level;
 
         protected LivingUnit(
-            Coordinates coordinates, 
-            int maxHealth, 
-            int attackStrength, 
-            int level, 
+            Coordinates coordinates,
+            int maxHealth,
+            int attackStrength,
+            int level,
             bool isAlive = true)
             : base(coordinates)
-
         {
             this.CurrentHealth = maxHealth;
             this.MaxHealth = maxHealth;
@@ -63,7 +62,7 @@
                     value = 0;
                 }
 
-                if (value> this.MaxHealth)
+                if (value > this.MaxHealth)
                 {
                     value = this.MaxHealth;
                 }
@@ -108,7 +107,7 @@
                     this.Coordinates = new Coordinates(this.Coordinates.X, this.Coordinates.Y + 1);
                     break;
                 default:
-                    throw new ArgumentException("Invalid direction", "direction" );
+                    throw new ArgumentException("Invalid direction", "direction");
             }
         }
 
