@@ -1,4 +1,6 @@
-﻿namespace AlduinRPG.Engine
+﻿using System.Collections.Generic;
+
+namespace AlduinRPG.Engine
 {
     using System;
     using Interfaces;
@@ -39,6 +41,7 @@
         public void Run()
         {
             this.ResurrectDeadEnemies();
+            this.ProcessMagics();
             this.units.Hero.Recover();
             this.MoveEnemies();
             this.ProcessCollisionsEnemyHero();
@@ -48,6 +51,23 @@
             }
 
             this.renderer.Render(this.units, this.gameMap);
+        }
+
+        private void ProcessMagics()
+        {
+            var magicValues = new Magic[this.units.Magics.Values.Count];
+            this.units.Magics.Values.CopyTo(magicValues, 0);
+            foreach (var magic in magicValues)
+            {
+                if (magic.HasTimedOut)
+                {
+                    this.units.Magics.Remove(magic.Coordinates);
+                }
+                else
+                {
+                    magic.IncreaseCurrentTimeout();
+                }
+            }
         }
 
         private void Initialize()
@@ -182,8 +202,8 @@
 
         private void HeroMagicAttack()
         {
-            var magics = this.units.Hero.CastMagic();
-            foreach (var magic in magics)
+            this.units.Magics = this.units.Hero.CastMagic();
+            foreach (var magic in this.units.Magics.Values)
             {
                 if (this.units.Enemies.ContainsKey(magic.Coordinates))
                 {

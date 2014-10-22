@@ -47,7 +47,10 @@
 
         public int CurrentMana
         {
-            get { return this.currentMana; }
+            get
+            {
+                return this.currentMana;
+            }
 
             protected set
             {
@@ -69,7 +72,10 @@
 
         public int CurrentExperience
         {
-            get { return this.currentExperience; }
+            get
+            {
+                return this.currentExperience;
+            }
 
             protected set
             {
@@ -79,14 +85,17 @@
 
         public int MaxExperience
         {
-            get { return maxExperience; }
+            get { return this.maxExperience; }
 
             set { this.maxExperience = value; }
         }
 
         public int CurrentLives
         {
-            get { return this.currentLives; }
+            get
+            {
+                return this.currentLives;
+            }
 
             protected set
             {
@@ -106,11 +115,7 @@
             protected set { this.recoverySpeedHealth = value; }
         }
 
-        public HeroType HeroType
-        {
-            get;
-            protected set;
-        }
+        public HeroType HeroType { get; protected set; }
 
         public void TakeChest(Chest chest)
         {
@@ -128,7 +133,7 @@
                     this.CurrentHealth = this.MaxHealth;
                     break;
                 case ChestType.MaxMana:
-                    this.CurrentMana = MaxMana;
+                    this.CurrentMana = this.MaxMana;
                     break;
             }
         }
@@ -149,25 +154,52 @@
             this.CurrentHealth += this.RecoverySpeedHealth;
         }
 
-        public List<Magic> CastMagic()
+        public Dictionary<Coordinates, Magic> CastMagic(int timeout = 1)
         {
             int magicRange = this.GetMagicRange();
-            List<Magic> magicFields = new List<Magic>();
+            var magicFields = new Dictionary<Coordinates, Magic>();
 
             for (int x = this.Coordinates.X - magicRange; x <= this.Coordinates.X + magicRange; x++)
             {
                 for (int y = this.Coordinates.Y - magicRange; y < this.Coordinates.Y + magicRange; y++)
                 {
-                    if (x == this.Coordinates.X && y == this.Coordinates.Y)
+                    Coordinates magicCoordinates = new Coordinates(x, y);
+                    if (magicCoordinates == this.Coordinates)
                     {
                         continue;
                     }
 
-                    magicFields.Add(new Magic(new Coordinates(x, y), this.AttackStrength));
+                    magicFields.Add(magicCoordinates, new Magic(magicCoordinates, this.AttackStrength, timeout));
                 }
             }
 
             return magicFields;
+        }
+
+        public void GainExperience(EnemyType enemyType)
+        {
+            switch (enemyType)
+            {
+                case EnemyType.WeakEnemy:
+                    this.CurrentExperience += Hero.ExperienceIncreasment;
+                    break;
+                case EnemyType.BossEnemy:
+                    this.CurrentExperience += Hero.ExperienceIncreasment * 2;
+                    break;
+            }
+            
+            if (this.currentExperience >= this.MaxExperience)
+            {
+                this.currentExperience = 0;
+                this.Level++;
+            }
+        }
+
+        public override void Resurrect(Coordinates coordinates)
+        {
+            base.Resurrect(coordinates);
+            this.CurrentMana = this.MaxMana;
+            this.CurrentLives--;
         }
 
         private int GetMagicRange()
@@ -189,58 +221,6 @@
             }
 
             return magicRange;
-        }
-
-        public void GainExperience(EnemyType enemyType)
-        {
-            switch (enemyType)
-            {
-                case EnemyType.WeakEnemy:
-                    this.CurrentExperience += Hero.ExperienceIncreasment;
-                    break;
-                case EnemyType.BossEnemy:
-                    this.CurrentExperience += Hero.ExperienceIncreasment * 2;
-                    break;
-            }
-            
-            if (this.currentExperience >= this.MaxExperience)
-            {
-                this.currentExperience = 0;
-                this.Level ++;
-            }
-        }
-
-        public override void Resurrect(Coordinates coordinates)
-        {
-            base.Resurrect(coordinates);
-            this.CurrentMana = this.MaxMana;
-            this.CurrentLives--;
-        }
-
-
-
-        public Coordinates coordinates
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        public HeroType heroType
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-                throw new System.NotImplementedException();
-            }
         }
     }
 }

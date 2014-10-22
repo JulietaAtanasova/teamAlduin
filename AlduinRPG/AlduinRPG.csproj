@@ -72,7 +72,8 @@
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ILiving.cs" />
-    <Compile Include="Interfaces\IRenderable.cs" />
+    <Compile Include="Interfaces\IResurrectable.cs" />
+    <Compile Include="Interfaces\ITimeoutable.cs" />
     <Compile Include="Interfaces\IUnit.cs" />
     <Compile Include="Interfaces\IUserInput.cs" />
     <Compile Include="Models\Living\FemaleWarrior.cs" />
