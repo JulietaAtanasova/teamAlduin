@@ -5,11 +5,11 @@ namespace AlduinRPG.Models
     public class Units
     {
         private Hero hero;
-        private Dictionary<Coordinates, Enemy> enemies;
-        private Dictionary<Coordinates, Obstacle> obstacles;
-        private Dictionary<Coordinates, Chest> chests;
-        private Dictionary<Coordinates, Teleportation> teleports;
-        private Dictionary<Coordinates, Magic> magics; 
+        private IDictionary<Coordinates, Enemy> enemies;
+        private IDictionary<Coordinates, Obstacle> obstacles;
+        private IDictionary<Coordinates, Chest> chests;
+        private IDictionary<Coordinates, Teleportation> teleports;
+        private IDictionary<Coordinates, Magic> magics; 
 
         public Units()
         {
@@ -26,31 +26,31 @@ namespace AlduinRPG.Models
             set { this.hero = value; }
         }
 
-        public Dictionary<Coordinates, Enemy> Enemies
+        public IDictionary<Coordinates, Enemy> Enemies
         {
             get { return this.enemies; }
             set { this.enemies = value; }
         }
 
-        public Dictionary<Coordinates, Obstacle> Obstacles
+        public IDictionary<Coordinates, Obstacle> Obstacles
         {
             get { return this.obstacles; }
             set { this.obstacles = value; }
         }
 
-        public Dictionary<Coordinates, Chest> Chests
+        public IDictionary<Coordinates, Chest> Chests
         {
             get { return this.chests; }
             set { this.chests = value; }
         }
 
-        public Dictionary<Coordinates, Teleportation> Teleports
+        public IDictionary<Coordinates, Teleportation> Teleports
         {
             get { return this.teleports; }
             set { this.teleports = value; }
         }
 
-        public Dictionary<Coordinates, Magic> Magics
+        public IDictionary<Coordinates, Magic> Magics
         {
             get { return this.magics; }
             set { this.magics = value; }
