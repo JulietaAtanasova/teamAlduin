@@ -19,6 +19,7 @@
         private const string ChooseWarriorPath = "../../Resources/chooseWarrior.png";
         private const string EnemyPath = "../../Resources/enemy70x70.png";
         private const string FemaleWarriorPath = "../../Resources/female-warrior70x70.png";
+        private const string GameOverPath = "../../Resources/gameover.png";
         private const string LogoPath = "../../Resources/logo.png";
         private const string MagicianPath = "../../Resources/magician70x70.png";
         private const string RockPath = "../../Resources/rock70x70.png";
@@ -39,6 +40,7 @@
         private Image chooseMagician;
         private Image enemyImage;
         private Image femaleWarriorImage;
+        private Image gameOver;
         private Image logo;
         private Image magicianImage;
         private Image rockImage;
@@ -50,10 +52,20 @@
         private readonly Coordinates ProgressBarOffset = new Coordinates(15, 30);
         private readonly Coordinates UnitOffset = new Coordinates(70, 70);
 
+        private List<Button> buttons = new List<Button>();
+
         public RendererView(GameForm gameForm)
         {
             this.gameForm = gameForm;
             LoadImages();
+        }
+
+        public List<Button> Buttons
+        {
+            get
+            {
+                return this.buttons;
+            }
         }
 
         public void Render(Units units, GameMap gameMap)
@@ -94,22 +106,17 @@
             PictureBox logoBox = CreatePictureBox(logo, 450, 200);
             logoBox.Location = new Point(gameForm.Height / 2 - 60, 200);
             gameForm.Controls.Add(logoBox);
-
-            List<Button> buttons = new List<Button>();
-            Button play = new Button();
-            play.Text = "Play";
-            play.Top = gameForm.Height / 2 + 80;
-            buttons.Add(play);
-            play.Click += new EventHandler(gameForm.PlayClick);
-
-            Button exit = new Button();
-            buttons.Add(exit);
-            exit.Text = "Exit";
-            exit.Top = gameForm.Height / 2 + 120;
-            exit.Click += new EventHandler(gameForm.ExitClick);
-
+            CreateButtons();
             RenderButtons(buttons, gameForm);
         } 
+
+        public void RenderGameOverScreen()
+        {
+            PictureBox gameOverBox = CreatePictureBox(gameOver, 512, 58);
+            gameOverBox.Location = new Point(gameForm.Height / 2 - 100, 200);
+            gameForm.Controls.Add(gameOverBox);
+        }
+
         private void RenderUnits(Units units)
         {
             this.RenderHero(units.Hero);
@@ -220,6 +227,21 @@
                     RenderObject.RenderImage(gameForm, chestImage, chest.Key, UnitOffset);
                 }
             }
+        }
+
+        private void CreateButtons()
+        {
+            Button play = new Button();
+            play.Text = "Play";
+            play.Top = gameForm.Height / 2 + 80;
+            this.Buttons.Add(play);
+            play.Click += new EventHandler(gameForm.PlayClick);
+
+            Button exit = new Button();
+            exit.Text = "Exit";
+            exit.Top = gameForm.Height / 2 + 120;
+            this.Buttons.Add(exit);
+            exit.Click += new EventHandler(gameForm.ExitClick);
         }
 
         private void RenderButtons(List<Button> buttons, GameForm gameForm)
