@@ -1,5 +1,4 @@
-﻿
-namespace AlduinRPG.Views
+﻿namespace AlduinRPG.Views
 {
     using Models;
     using System.Drawing;
@@ -40,7 +39,7 @@ namespace AlduinRPG.Views
             LoadImages();
             RenderFrame();
             RenderUnits(units);
-            // TODO: clear objects 
+            //gameForm.Controls.Clear();
         }
 
         private void LoadImages()
@@ -59,7 +58,8 @@ namespace AlduinRPG.Views
 
         private void RenderFrame()
         {
-            // TODO
+            Image background = Image.FromFile("../../Resources/grass70x70.png");
+            gameForm.BackgroundImage = background;
         }
 
         private void RenderUnits(Units units)

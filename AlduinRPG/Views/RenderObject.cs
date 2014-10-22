@@ -7,16 +7,19 @@
 
     public static class RenderObject
     {
-        public static void RenderImage(GameForm gameForm, Image image, Coordinates coordinates, int width = 70, int height = 70)
+        private const int ImageSize = 70;
+
+        public static void RenderImage(GameForm gameForm, Image image, Coordinates coordinates)
         {
             try
             {
                 var picBox = new PictureBox();
+                picBox.BackgroundImage = image;
                 picBox.BackColor = Color.Transparent;
                 picBox.Image = image;
                 picBox.Parent = gameForm;
                 picBox.Location = new Point(coordinates.X, coordinates.Y);
-                picBox.Size = new Size(width, height);
+                picBox.Size = new Size(ImageSize, ImageSize);
                 gameForm.Controls.Add(picBox);
             }
             catch (System.IO.FileNotFoundException e)

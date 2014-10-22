@@ -13,7 +13,7 @@
 
         private void GameForm_Load(object sender, EventArgs e)
         {
-            GameMap gameMap = new GameMap(MapType.Medium);
+            GameMap gameMap = new GameMap(MapType.Big);
             var engine = new Engine.Engine(this, gameMap);
             engine.Run();
         }
