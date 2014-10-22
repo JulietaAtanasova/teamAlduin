@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace AlduinRPG.Engine
 {
@@ -17,9 +18,10 @@ namespace AlduinRPG.Engine
         private readonly RendererView renderer;
         private GameForm gameForm;
 
-        public Engine(GameForm gameForm, GameMap gameMap)
+        public Engine(GameForm gameForm, GameMap gameMap, IUserInput controller)
         {
             this.gameMap = gameMap;
+            this.SubscribeToUserInput(controller);
             this.obstacleCount = gameMap.Width;
             this.enemyCount = gameMap.Height;
             this.units = new Units();

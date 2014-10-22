@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using AlduinRPG.Interfaces;
-
-namespace AlduinRPG.Views
+﻿namespace AlduinRPG.Views
 {
     using Models;
     using System.Drawing;
     using System;
     using System.Windows.Forms;
+    using System.Collections;
+    using System.Collections.Generic;
+    using AlduinRPG.Interfaces;
 
     public class RendererView
     {
@@ -27,10 +26,10 @@ namespace AlduinRPG.Views
         private const string TreePath = "../../Resources/tree.png";
         private const string WarriorPath = "../../Resources/warrior70x70.png";
         private const string BackgroundPath = "../../Resources/grass70x70.png";
-        private const Color Yellow = Color.FromArgb(255, 231, 182, 54);
-        private const Color Gray = Color.FromArgb(0, 61, 55, 55);
-        private const Font FontFamily = new Font("Sans-serif", 12, FontStyle.Bold);
-        private const Size ButtonSize = new Size(150, 30);
+        private Color Yellow = Color.FromArgb(255, 231, 182, 54);
+        private Color Gray = Color.FromArgb(0, 61, 55, 55);
+        private Font FontFamily = new Font("Sans-serif", 12, FontStyle.Bold);
+        private Size ButtonSize = new Size(150, 30);
 
         private Image bossImage;
         private Image bushImage;
@@ -59,7 +58,7 @@ namespace AlduinRPG.Views
 
         public void Render(Units units, GameMap gameMap)
         {
-            ClearScreen();
+            //ClearScreen();
             RenderFrame();
             RenderUnits(units);
         }
@@ -145,7 +144,7 @@ namespace AlduinRPG.Views
                     RenderObject.RenderImage(gameForm, femaleWarriorImage, hero.Coordinates, UnitOffset);
                     break;
                 case HeroType.Warrior:
-                    RenderObject.RenderImage(gameForm, warriorImage, new Coordinates(4, 3), UnitOffset);
+                    RenderObject.RenderImage(gameForm, warriorImage, hero.Coordinates, UnitOffset);
                     break;
                 case HeroType.Magician:
                     RenderObject.RenderImage(gameForm, magicianImage, hero.Coordinates, UnitOffset);
@@ -155,7 +154,7 @@ namespace AlduinRPG.Views
             }
         }
 
-        private void RenderEnemies(Dictionary<Coordinates, Enemy> enemies, Hero hero)
+        private void RenderEnemies(IDictionary<Coordinates, Enemy> enemies, Hero hero)
         {
             foreach (var enemy in enemies)
             {
@@ -177,7 +176,7 @@ namespace AlduinRPG.Views
             }
         }
 
-        private void RenderTeleports(Dictionary<Coordinates, Teleportation> teleports, Hero hero)
+        private void RenderTeleports(IDictionary<Coordinates, Teleportation> teleports, Hero hero)
         {
             foreach (var teleport in teleports)
             {
@@ -188,7 +187,7 @@ namespace AlduinRPG.Views
             }
         }
 
-        private void RenderObstacles(Dictionary<Coordinates, Obstacle> obstacles, Hero hero)
+        private void RenderObstacles(IDictionary<Coordinates, Obstacle> obstacles, Hero hero)
         {
             foreach (var obstacle in obstacles)
             {
@@ -212,7 +211,7 @@ namespace AlduinRPG.Views
             }
         }
 
-        private void RenderChests(Dictionary<Coordinates, Chest> chests, Hero hero)
+        private void RenderChests(IDictionary<Coordinates, Chest> chests, Hero hero)
         {
             foreach (var chest in chests)
             {

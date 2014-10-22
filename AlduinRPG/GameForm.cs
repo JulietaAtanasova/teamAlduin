@@ -1,4 +1,7 @@
-﻿namespace AlduinRPG
+﻿using AlduinRPG.Interfaces;
+using AlduinRPG.Views;
+
+namespace AlduinRPG
 {
     using System;
     using System.Windows.Forms;
@@ -32,7 +35,8 @@
         private void GameForm_Load(object sender, EventArgs e)
         {
             GameMap gameMap = new GameMap(MapType.Small);
-            var engine = new Engine.Engine(this, gameMap);
+            IUserInput controller = new KeyboardController(this);
+            var engine = new Engine.Engine(this, gameMap, controller);
 
             Timer timer = new Timer();
             timer.Interval = TimeInterval;
