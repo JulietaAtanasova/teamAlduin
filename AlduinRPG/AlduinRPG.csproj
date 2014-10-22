@@ -99,6 +99,7 @@
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Models\Living\WeakEnemy.cs" />
     <Compile Include="Models\Static\Magic.cs" />
+    <Compile Include="Models\Units.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\KeyboardController.cs" />

@@ -34,6 +34,7 @@
             this.Initialize();
             while (true)
             {
+                this.ResurrectDeadEnemies();
                 this.units.Hero.Recover();
                 this.MoveEnemies();
                 this.ProcessCollisions();
@@ -130,10 +131,15 @@
 
         private void MoveEnemies()
         {
-            foreach (var enemy in this.units.Enemies.Values)
+            IEnumerable<Enemy> enemyValues = this.units.Enemies.Values;
+            foreach (var enemy in enemyValues)
             {
-                    Direction direction = this.GetDirection(enemy.Coordinates);
-                    enemy.Move(direction);
+                Coordinates oldCoordinates = enemy.Coordinates;
+                Direction direction = this.GetDirection(oldCoordinates);
+                enemy.Move(direction);
+                Coordinates newCoordinates = enemy.Coordinates;
+                this.units.Enemies.Remove(oldCoordinates);
+                this.units.Enemies.Add(newCoordinates, enemy);
             }
         }
 
@@ -141,20 +147,23 @@
         {
             ProcessCollisionsEnemyHero();
             // TODO Enemy/Magic - > in HeroMagicAttack
-            this.ResurrectDeadEnemies();
+            
 
         }
 
         private void ResurrectDeadEnemies()
         {
-            var enemies = GetEnemies();
-
-            foreach (var enemy in enemies)
+            IEnumerable<Enemy> enemyValues = this.units.Enemies.Values;
+            foreach (var enemy in enemyValues)
             {
                 if (enemy.IsAlive == false)
                 {
+                    Coordinates oldCoordinates = enemy.Coordinates;
                     enemy.Resurrect(GetRandomCoordinates());
-                }
+                    Coordinates newCoordinates = enemy.Coordinates;
+                    this.units.Enemies.Remove(oldCoordinates);
+                    this.units.Enemies.Add(newCoordinates, enemy);
+                } 
             }
         }
 
@@ -169,19 +178,19 @@
             EnemyAttack(enemyInRange);
         }
 
-        private Enemy FindEnemyInRange()
+        private Enemy FindEnemyInRange(int range = 1)
         {
-            var enemies = GetEnemies();
-            var hero = GetHero();
-            foreach (var enemy in enemies)
+            int heroX = this.units.Hero.Coordinates.X;
+            int heroY = this.units.Hero.Coordinates.Y;
+            for (int i = heroX - range; i <= heroX + range; i++)
             {
-                bool checkX = hero.Coordinates.X >= enemy.Coordinates.X - 1
-                              && hero.Coordinates.X <= enemy.Coordinates.X + 1;
-                bool checkY = hero.Coordinates.Y >= enemy.Coordinates.Y - 1
-                              && hero.Coordinates.Y <= enemy.Coordinates.Y + 1;
-                if (checkX && checkY)
+                for (int j = heroY - range; j <= heroY + range; j++)
                 {
-                    return enemy;
+                    Coordinates coordinates = new Coordinates(i, j);
+                    if (this.units.Enemies.ContainsKey(coordinates))
+                    {
+                        return this.units.Enemies[coordinates];
+                    }
                 }
             }
 
@@ -190,7 +199,7 @@
 
         private void EnemyAttack(Enemy enemy)
         {
-            GetHero().TakeDamage(enemy.PhysicalAttack());
+            this.units.Hero.TakeDamage(enemy.PhysicalAttack());
         }
 
         private bool GameOver()

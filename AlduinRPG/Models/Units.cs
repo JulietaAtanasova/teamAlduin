@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-
 namespace AlduinRPG.Models
 {
-    class Units
+    ﻿using System.Collections.Generic;
+
+    public class Units
     {
         private Hero hero;
         private Dictionary<Coordinates, Enemy> enemies;
@@ -46,12 +46,13 @@ namespace AlduinRPG.Models
 
         public bool ContainsUnit(Coordinates coordinates)
         {
-            return (this.Hero.Coordinates == coordinates) ||
+            bool hasHero = this.Hero != null;
+            return  (hasHero && this.Hero.Coordinates == coordinates)||
                    this.Enemies.ContainsKey(coordinates) ||
                    this.Obstacles.ContainsKey(coordinates) ||
                    this.Chests.ContainsKey(coordinates) ||
                    this.Teleports.ContainsKey(coordinates);
         }
-
     }
 }
+
