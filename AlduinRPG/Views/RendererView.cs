@@ -29,6 +29,8 @@
         private Image treeImage;
         private Image warriorImage;
 
+        private readonly Coordinates ProgressBarOffset = new Coordinates(15, 30);
+
         public RendererView(GameForm gameForm)
         {
             this.gameForm = gameForm;

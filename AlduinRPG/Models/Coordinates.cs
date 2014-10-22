@@ -22,5 +22,18 @@
         {
             return !(first == second);
         }
+
+        public static Coordinates operator-(Coordinates first, Coordinates second)
+        {
+            int newX = first.X - second.X;
+            int newY = first.Y - second.Y;
+            return new Coordinates(newX, newY);
+        }
+        public static Coordinates operator +(Coordinates first, Coordinates second)
+        {
+            int newX = first.X + second.X;
+            int newY = first.Y + second.Y;
+            return new Coordinates(newX, newY);
+        }
     }
 }

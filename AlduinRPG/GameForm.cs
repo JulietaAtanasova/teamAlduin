@@ -6,6 +6,7 @@
 
     public partial class GameForm : Form
     {
+        public const int TimeInterval = 150;
         public GameForm()
         {
             InitializeComponent();
@@ -15,7 +16,11 @@
         {
             GameMap gameMap = new GameMap(MapType.Big);
             var engine = new Engine.Engine(this, gameMap);
-            engine.Run();
+
+            Timer timer = new Timer();
+            timer.Interval = TimeInterval;
+            timer.Tick += (s, args) => engine.Run();
+            timer.Start();
         }
     }
 }
