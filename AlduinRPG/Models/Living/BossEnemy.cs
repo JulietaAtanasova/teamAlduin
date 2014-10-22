@@ -8,6 +8,7 @@
         public BossEnemy(Coordinates coordinates)
             : base(coordinates, BossEnemy.DefaultMaxHealth, BossEnemy.DefaultAttackStrength, BossEnemy.DefaultLevel)
         {
+            this.EnemyType = EnemyType.BossEnemy;
         }
     }
 }

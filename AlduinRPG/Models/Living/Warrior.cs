@@ -15,6 +15,7 @@
             Warrior.DefaultLevel, Warrior.DefaultMaxMana, Warrior.DefaultExperience, Warrior.DefaultLives,
             Warrior.DefaultRecoverySpeedHealth, Warrior.DefaultrecoverySpeedMana)
         {
+            this.HeroType = HeroType.Warrior;
         }
     }
 }
