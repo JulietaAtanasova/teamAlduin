@@ -9,12 +9,10 @@
 
     public class Engine
     {
-        private const int RefreshRate = 500;
         private readonly int ObstacleCount;
         private readonly int EnemyCount;
         private readonly GameMap gameMap;
         private readonly Random random = new Random();
-        private Dictionary<Coordinates, IUnit> OLD_UNITS;
         private Units units;
         private GameForm gameForm;
         private RendererView renderer;
@@ -27,25 +25,20 @@
             this.units = new Units();
             this.gameForm = gameForm;
             this.renderer = new RendererView(this.gameForm);
+            this.Initialize();
         }
 
         public void Run()
         {
-            this.Initialize();
-            while (true)
+            this.ResurrectDeadEnemies();
+            this.units.Hero.Recover();
+            this.MoveEnemies();
+            this.ProcessCollisionsEnemyHero();
+            if (this.GameOver())
             {
-                this.ResurrectDeadEnemies();
-                this.units.Hero.Recover();
-                this.MoveEnemies();
-                this.ProcessCollisions();
-                if (this.GameOver())
-                {
-                    break;
-                }
-                renderer.Render(units, gameMap);
-                Thread.Sleep(Engine.RefreshRate);
+                // TODO - render gameover
             }
-
+            renderer.Render(units, gameMap);
         }
 
         private void Initialize()
@@ -129,33 +122,13 @@
             }
         }
 
-        private void MoveEnemies()
-        {
-            IEnumerable<Enemy> enemyValues = this.units.Enemies.Values;
-            foreach (var enemy in enemyValues)
-            {
-                Coordinates oldCoordinates = enemy.Coordinates;
-                Direction direction = this.GetDirection(oldCoordinates);
-                enemy.Move(direction);
-                Coordinates newCoordinates = enemy.Coordinates;
-                this.units.Enemies.Remove(oldCoordinates);
-                this.units.Enemies.Add(newCoordinates, enemy);
-            }
-        }
-
-        private void ProcessCollisions()
-        {
-            ProcessCollisionsEnemyHero();
-            // TODO Enemy/Magic - > in HeroMagicAttack
-            
-
-        }
-
         private void ResurrectDeadEnemies()
         {
-            IEnumerable<Enemy> enemyValues = this.units.Enemies.Values;
-            foreach (var enemy in enemyValues)
+            Enemy[] enemyValues = new Enemy[this.units.Enemies.Values.Count];
+            this.units.Enemies.Values.CopyTo(enemyValues, 0);
+            for (int i = 0; i < enemyValues.Length; i++)
             {
+                Enemy enemy = enemyValues[i];
                 if (enemy.IsAlive == false)
                 {
                     Coordinates oldCoordinates = enemy.Coordinates;
@@ -163,7 +136,23 @@
                     Coordinates newCoordinates = enemy.Coordinates;
                     this.units.Enemies.Remove(oldCoordinates);
                     this.units.Enemies.Add(newCoordinates, enemy);
-                } 
+                }
+            }
+        }
+
+        private void MoveEnemies()
+        {
+            Enemy[] enemyValues = new Enemy[this.units.Enemies.Values.Count];
+            this.units.Enemies.Values.CopyTo(enemyValues, 0);
+            for (int i = 0; i < enemyValues.Length; i++)
+            {
+                Enemy enemy = enemyValues[i];
+                Coordinates oldCoordinates = enemy.Coordinates;
+                Direction direction = this.GetDirection(oldCoordinates);
+                enemy.Move(direction);
+                Coordinates newCoordinates = enemy.Coordinates;
+                this.units.Enemies.Remove(oldCoordinates);
+                this.units.Enemies.Add(newCoordinates, enemy);
             }
         }
 
@@ -226,48 +215,74 @@
             return this.GetRandomCoordinates();
         }
 
-        private Hero GetHero()
-        {
-            Hero hero = null; // ???????????
-            foreach (var unit in this.OLD_UNITS)
-            {
-                if (unit.Value is Hero)
-                {
-                    hero = unit.Value as Hero;
-                    break;
-                }
-            }
-
-            if (hero == null)
-            {
-                throw new ArgumentNullException("hero", "Cannot find hero.");
-            }
-
-            return hero;
-        }
-
-        private IEnumerable<Enemy> GetEnemies()
-        {
-            var enemies = new List<Enemy>();
-            foreach (var unit in this.OLD_UNITS)
-            {
-                if (unit.Value is Enemy)
-                {
-                    enemies.Add(unit.Value as Enemy);
-                }
-            }
-
-            if (enemies == null)
-            {
-                throw new ArgumentNullException("enemies", "Cannot find enemies.");
-            }
-
-            return enemies;
-        }
-
         private Direction GetDirection(Coordinates currentCoordinates)
         {
             Direction direction = (Direction)this.random.Next(0, 4);
+            return CanMove(currentCoordinates, direction) ? direction : this.GetDirection(currentCoordinates);
+        }
+
+        public void SubscribeToUserInput(IUserInput userInterface)
+        {
+            userInterface.OnUpPressed += (sender, args) =>
+            {
+                this.TryMoveHero(Direction.Up);
+            };
+            userInterface.OnDownPressed += (sender, args) =>
+            {
+                this.TryMoveHero(Direction.Down);
+            };
+            userInterface.OnRightPressed += (sender, args) =>
+            {
+                this.TryMoveHero(Direction.Right);
+            };
+            userInterface.OnLeftPressed += (sender, args) =>
+            {
+                this.TryMoveHero(Direction.Left);
+            };
+            userInterface.OnPhysicalAttackPressed += (sender, args) =>
+            {
+                this.HeroAttack();
+            };
+            userInterface.OnSpellPressed += (sender, args) =>
+            {
+                this.HeroMagicAttack();
+            };
+        }
+
+        private void HeroMagicAttack()
+        {
+            var magics = this.units.Hero.CastMagic();
+            foreach (var magic in magics)
+            {
+                if (units.Enemies.ContainsKey(magic.Coordinates))
+                {
+                    Enemy enemy = units.Enemies[magic.Coordinates];
+                    enemy.TakeDamage(magic.DamagePower);
+                }
+            }
+        }
+
+        private void HeroAttack()
+        {
+            var enemyInRange = this.FindEnemyInRange();
+            if (enemyInRange == null)
+            {
+                return;
+            }
+
+            enemyInRange.TakeDamage(this.units.Hero.PhysicalAttack());
+        }
+
+        private void TryMoveHero(Direction direction)
+        {
+            if (CanMove(this.units.Hero.Coordinates, direction))
+            {
+                this.units.Hero.Move(direction);
+            }
+        }
+
+        private bool CanMove(Coordinates currentCoordinates, Direction direction)
+        {
             int nextX = currentCoordinates.X;
             int nextY = currentCoordinates.Y;
             switch (direction)
@@ -287,90 +302,8 @@
             }
 
             Coordinates nextCoordinates = new Coordinates(nextX, nextY);
-            if (!this.units.ContainsUnit(nextCoordinates))
-            {
-                return direction;
-            }
-
-            return this.GetDirection(currentCoordinates);
-        }
-
-        public void SubscribeToUserInput(IUserInput userInterface)
-        {
-            userInterface.OnUpPressed += (sender, args) =>
-            {
-                this.MovePlayerUp();
-            };
-            userInterface.OnDownPressed += (sender, args) =>
-            {
-                this.MovePlayerDown();
-            };
-            userInterface.OnRightPressed += (sender, args) =>
-            {
-                this.MovePlayerRight();
-            };
-            userInterface.OnLeftPressed += (sender, args) =>
-            {
-                this.MovePlayerLeft();
-            };
-            userInterface.OnPhysicalAttackPressed += (sender, args) =>
-            {
-                this.HeroAttack();
-            };
-            userInterface.OnSpellPressed += (sender, args) =>
-            {
-                this.HeroMagicAttack();
-            };
-        }
-
-        private void HeroMagicAttack()
-        {
-            var hero = GetHero();
-            var magics = hero.CastMagic();
-
-            foreach (var magic in magics)
-            {
-                if (OLD_UNITS.ContainsKey(magic.Coordinates))
-                {
-                    if (OLD_UNITS[magic.Coordinates] is Enemy)
-                    {
-                        Enemy enemy = OLD_UNITS[magic.Coordinates] as Enemy;
-                        enemy.TakeDamage(magic.DamagePower);
-                    }
-                }
-            }
-        }
-
-        private void HeroAttack()
-        {
-            Hero hero = GetHero();
-            var enemyInRange = this.FindEnemyInRange();
-            if (enemyInRange == null)
-            {
-                return;
-            }
-
-            enemyInRange.TakeDamage(hero.PhysicalAttack());
-        }
-
-        private void MovePlayerUp()
-        {
-            this.GetHero().Move(Direction.Up);
-        }
-
-        private void MovePlayerDown()
-        {
-            this.GetHero().Move(Direction.Down);
-        }
-
-        private void MovePlayerRight()
-        {
-            this.GetHero().Move(Direction.Right);
-        }
-
-        private void MovePlayerLeft()
-        {
-            this.GetHero().Move(Direction.Left);
+            bool canMove = !this.units.ContainsUnit(nextCoordinates);
+            return canMove;
         }
     }
 }
