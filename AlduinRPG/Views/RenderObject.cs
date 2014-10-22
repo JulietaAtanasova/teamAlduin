@@ -17,13 +17,13 @@
             {
                 var picBox = new PictureBox();
                 var imageCoordinates = new Coordinates(coordinates.X, coordinates.Y);
-                var imageCoordinatesWithOffset = imageCoordinates + offset;
+                var imageCoordinatesWithOffset = imageCoordinates * offset;
 
                 picBox.BackgroundImage = image;
                 picBox.BackColor = Color.Transparent;
                 picBox.Image = image;
                 picBox.Parent = gameForm;
-                picBox.Location =  new Point(imageCoordinatesWithOffset.X, imageCoordinatesWithOffset.Y);
+                picBox.Location = new Point(imageCoordinatesWithOffset.X, imageCoordinatesWithOffset.Y);
                 picBox.Size = new Size(ImageSize, ImageSize);
                 gameForm.Controls.Add(picBox);
             }
