@@ -15,6 +15,7 @@ namespace AlduinRPG.Models
             FemaleWarrior.DefaultLevel, FemaleWarrior.DefaultMaxMana, FemaleWarrior.DefaultExperience, FemaleWarrior.DefaultLives,
             FemaleWarrior.DefaultRecoverySpeedHealth, FemaleWarrior.DefaultrecoverySpeedMana)
         {
+            this.HeroType = HeroType.FemaleWarrior;
         }
     }
 }

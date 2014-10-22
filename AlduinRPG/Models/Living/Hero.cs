@@ -33,7 +33,7 @@ namespace AlduinRPG.Models
         public int CurrentExperience { get; set; }
         public int CurrentLives { get; set; }
         public int RecoverySpeedHealth { get; set; }
-
+        public HeroType HeroType { get; set; }
 
         private void TakeChest(Chest chest)
         {

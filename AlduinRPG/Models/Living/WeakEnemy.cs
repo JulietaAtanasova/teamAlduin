@@ -8,6 +8,7 @@
         public WeakEnemy(Coordinates coordinates)
             : base(coordinates, DefaultMaxHealth, DefaultAttackStrength, DefaultLevel)
         {
+            this.EnemyType = EnemyType.WeakEnemy;
         }
     }
 }

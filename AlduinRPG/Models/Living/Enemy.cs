@@ -7,6 +7,8 @@
         {
         }
 
+        public EnemyType EnemyType { get; set; }
+
         public override Coordinates Move(Direction direction)
         {
             // TODO : random logic???

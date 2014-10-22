@@ -15,6 +15,7 @@
             Magician.DefaultMaxMana, Magician.DefaultExperience, Magician.DefaultLives,
             Magician.DefaultRecoverySpeedHealth, Magician.DefaultRecoverySpeedMana)
         {
+            this.HeroType = HeroType.Magician;
         }
     }
 }
