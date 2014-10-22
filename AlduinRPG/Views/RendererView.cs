@@ -1,11 +1,9 @@
-﻿using System;
-
+﻿
 namespace AlduinRPG.Views
 {
-    using Interfaces;
-    using System.Collections.Generic;
     using Models;
     using System.Drawing;
+    using System;
 
     public class RendererView
     {
@@ -31,13 +29,13 @@ namespace AlduinRPG.Views
         private Image teleportImage;
         private Image treeImage;
         private Image warriorImage;
-        
+
         public RendererView(GameForm gameForm)
         {
             this.gameForm = gameForm;
         }
 
-        public void Render(Dictionary<Coordinates, IUnit> units, GameMap gameMap)
+        public void Render(Units units, GameMap gameMap)
         {
             LoadImages();
             RenderFrame();
@@ -64,49 +62,69 @@ namespace AlduinRPG.Views
             // TODO
         }
 
-        private void RenderUnits(Dictionary<Coordinates, IUnit> units)
+        private void RenderUnits(Units units)
         {
-            foreach (var unit in units)
+            // Render hero
+            switch (units.Hero.HeroType)
             {
-                var unitType = unit.Value.GetType().Name;
-                var coordinates = unit.Key;
+                case HeroType.FemaleWarrior:
+                    RenderObject.RenderImage(gameForm, femaleWarriorImage, units.Hero.Coordinates);
+                    break;
+                case HeroType.Warrior:
+                    RenderObject.RenderImage(gameForm, warriorImage, units.Hero.Coordinates);
+                    break;
+                case HeroType.Magician:
+                    RenderObject.RenderImage(gameForm, magicianImage, units.Hero.Coordinates);
+                    break;
+                default:
+                    throw new NotImplementedException("Hero view not implemented.");
+            }
 
-                switch (unitType)
+            // Render enemies.
+            foreach (var enemy in units.Enemies)
+            {
+                switch (enemy.Value.EnemyType)
                 {
-                    case "Warrior":
-                        RenderObject.RenderImage(gameForm, warriorImage, coordinates);
+                    case EnemyType.BossEnemy:
+                        RenderObject.RenderImage(gameForm, bossImage, enemy.Key);
                         break;
-                    case "Magician":
-                        RenderObject.RenderImage(gameForm, magicianImage, coordinates);
-                        break;
-                    case "FemaleWarrior":
-                        RenderObject.RenderImage(gameForm, femaleWarriorImage, coordinates);
-                        break;
-                    case "BossEnemy":
-                        RenderObject.RenderImage(gameForm, bossImage, coordinates);
-                        break;
-                    case "WeakEnemy":
-                        RenderObject.RenderImage(gameForm, enemyImage, coordinates);
-                        break;
-                    case "Chest":
-                        RenderObject.RenderImage(gameForm, chestImage, coordinates);
-                        break;
-                    case "Obstacle":
-                        RenderObject.RenderImage(gameForm, treeImage, coordinates);
-                        break;
-                    case "Rock":
-                        RenderObject.RenderImage(gameForm, rockImage, coordinates);
-                        break;
-                    case "Bush":
-                        RenderObject.RenderImage(gameForm, bushImage, coordinates);
-                        break;
-                    case "Teleport":
-                        RenderObject.RenderImage(gameForm, teleportImage, coordinates);
+                    case EnemyType.WeakEnemy:
+                        RenderObject.RenderImage(gameForm, enemyImage, enemy.Key);
                         break;
                     default:
-                        throw new NotImplementedException(String.Format("Unit type view not implemented ({0}).", unitType));
-                        break;
+                        throw new NotImplementedException("Enemy view not implemented.");
                 }
+            }
+
+            // Render each teleport
+            foreach (var teleport in units.Teleports)
+            {
+                RenderObject.RenderImage(gameForm, teleportImage, teleport.Key);
+            }
+
+            // Render obstacles
+            foreach (var obstacle in units.Obstacles)
+            {
+                switch (obstacle.Value.ObstacleType)
+                {
+                    case ObstacleType.Bush:
+                        RenderObject.RenderImage(gameForm, bushImage, obstacle.Key);
+                        break;
+                    case ObstacleType.Rock:
+                        RenderObject.RenderImage(gameForm, rockImage, obstacle.Key);
+                        break;
+                    case ObstacleType.Tree:
+                        RenderObject.RenderImage(gameForm, treeImage, obstacle.Key);
+                        break;
+                    default:
+                        throw new NotImplementedException("Obstacle view not implemented.");
+                }
+            }
+
+            // Render chests
+            foreach (var chest in units.Chests)
+            {
+                RenderObject.RenderImage(gameForm, chestImage, chest.Key);
             }
         }
     }
