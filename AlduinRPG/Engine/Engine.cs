@@ -17,7 +17,7 @@ namespace AlduinRPG.Engine
         private readonly RendererView renderer;
         private GameForm gameForm;
 
-        public Engine(GameForm gameForm, GameMap gameMap)
+        public Engine(GameForm gameForm, GameMap gameMap, IUserInput userInput)
         {
             this.gameMap = gameMap;
             this.obstacleCount = gameMap.Width;
@@ -26,6 +26,7 @@ namespace AlduinRPG.Engine
             this.gameForm = gameForm;
             this.renderer = new RendererView(this.gameForm);
             this.Initialize();
+            this.SubscribeToUserInput(userInput);
         }
 
         public void SubscribeToUserInput(IUserInput userInterface)
