@@ -4,7 +4,7 @@
     using AlduinRPG.Interfaces;
 
 
-    public abstract class LivingUnit : Unit, ILiving, IMovable
+    public abstract class LivingUnit : Unit, ILiving, IMovable, IResurrectable
     {
         private bool isAlive;
         private int maxHealth;
