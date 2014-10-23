@@ -1,6 +1,6 @@
 ﻿namespace AlduinRPG.Interfaces
 {
-    using AlduinRPG.Models;
+    using Models;
 
     public interface IResurrectable
     {

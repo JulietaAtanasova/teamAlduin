@@ -1,7 +1,7 @@
-﻿using AlduinRPG.Models;
-
-namespace AlduinRPG.Interfaces
+﻿namespace AlduinRPG.Interfaces
 {
+    using Models;
+
     public interface ILiving
     {
         int PhysicalAttack();
@@ -9,6 +9,5 @@ namespace AlduinRPG.Interfaces
         void TakeDamage(int attack);
                 
         void Resurrect(Coordinates coordinates);
-
     }
 }

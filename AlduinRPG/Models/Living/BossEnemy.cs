@@ -4,10 +4,16 @@
     {
         private const EnemyType DefaultType = EnemyType.BossEnemy;
         private const int DefaultMaxHealth = 500;
-        private const int DefaultAttackStrength = 20;
+        private const int DefaultAttackStrength = 80;
         private const int DefaultLevel = 1;
+
         public BossEnemy(Coordinates coordinates)
-            : base(BossEnemy.DefaultType, coordinates, BossEnemy.DefaultMaxHealth, BossEnemy.DefaultAttackStrength, BossEnemy.DefaultLevel)
+            : base(
+            BossEnemy.DefaultType, 
+            coordinates, 
+            BossEnemy.DefaultMaxHealth, 
+            BossEnemy.DefaultAttackStrength, 
+            BossEnemy.DefaultLevel)
         {
         }
     }

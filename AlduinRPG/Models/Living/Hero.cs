@@ -138,6 +138,11 @@
             }
         }
 
+        public void Teleport(Coordinates coordinates)
+        {
+            this.Coordinates = coordinates;
+        }
+
         public void Recover()
         {
             this.RecoverHealth();

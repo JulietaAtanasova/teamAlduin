@@ -1,10 +1,9 @@
-﻿using AlduinRPG.Interfaces;
-
-namespace AlduinRPG.Models
+﻿namespace AlduinRPG.Models
 {
+    using Interfaces;
+
     public class Magic : StaticUnit, ITimeoutable
     {
-        private int damagePower;
         public Magic(Coordinates coordinates, int damagePower, int maxTimeout) : base(coordinates)
         {
             this.DamagePower = damagePower;
@@ -13,11 +12,14 @@ namespace AlduinRPG.Models
         }
 
         public int DamagePower { get; private set; }
+
         public int MaxTimeout { get; private set; }
+
         public int CurrentTimeout { get; private set; }
+
         public bool HasTimedOut
         {
-            get { return (this.CurrentTimeout >= this.MaxTimeout); }
+            get { return this.CurrentTimeout >= this.MaxTimeout; }
         }
 
         public void IncreaseCurrentTimeout()

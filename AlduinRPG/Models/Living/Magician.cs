@@ -1,6 +1,6 @@
 ﻿namespace AlduinRPG.Models
 {
-    class Magician : Hero
+    public class Magician : Hero
     {
         private const HeroType DefaultHeroType = HeroType.Magician;
         private const int DefaultMaxHealth = 200; 
