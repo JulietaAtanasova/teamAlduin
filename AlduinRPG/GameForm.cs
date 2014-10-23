@@ -16,6 +16,24 @@ namespace AlduinRPG
             InitializeComponent();
         }
 
+        public void MagicianClick(object sender, EventArgs e)
+        {
+            // TODO: Implement this method
+            throw new NotImplementedException();
+        }
+
+        public void FemaleWarriorClick(object sender, EventArgs e)
+        {
+            // TODO: Implement this method
+            throw new NotImplementedException();
+        }
+
+        public void WarriorClick(object sender, EventArgs e)
+        {
+            // TODO: Implement this method
+            throw new NotImplementedException();
+        }
+
         internal void PlayClick(object sender, EventArgs e)
         {
             this.Controls.Clear();
@@ -37,7 +55,6 @@ namespace AlduinRPG
             GameMap gameMap = new GameMap(MapType.Small);
             IUserInput controller = new KeyboardController(this);
             var engine = new Engine.Engine(this, gameMap, controller);
-
             Timer timer = new Timer();
             timer.Interval = TimeInterval;
             timer.Enabled = true;

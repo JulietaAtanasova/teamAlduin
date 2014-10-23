@@ -32,6 +32,7 @@
         private Color Yellow = Color.FromArgb(255, 231, 182, 54);
         private Color Gray = Color.FromArgb(0, 61, 55, 55);
         private Font FontFamily = new Font("Sans-serif", 12, FontStyle.Bold);
+        private Font HeadingFont = new Font("Sans-serif", 12, FontStyle.Bold); 
         private Size ButtonSize = new Size(150, 30);
 
         private Image bossImage;
@@ -55,7 +56,8 @@
         private readonly Coordinates UnitOffset = new Coordinates(70, 70);
         private const int TopBarOffset = 90;
 
-        private List<Button> buttons = new List<Button>();
+        private List<Button> menuButtons = new List<Button>();
+        private List<Button> heroesButtons = new List<Button>(); 
 
         public RendererView(GameForm gameForm)
         {
@@ -78,11 +80,18 @@
             this.gameForm.Controls.SetChildIndex(picBox, 999);
         }
 
-        public List<Button> Buttons
+        public List<Button> MenuButtons
         {
             get
             {
-                return this.buttons;
+                return this.menuButtons;
+            }
+        }
+        public List<Button> HeroesButtons
+        {
+            get
+            {
+                return this.heroesButtons;
             }
         }
 
@@ -322,16 +331,31 @@
         public void RenderStartScreen(GameForm gameForm)
         {
             gameForm.BackColor = Gray;
-            PictureBox logoBox = CreatePictureBox(logo, 450, 200, new Point(gameForm.Height / 2 - 60, 200));
+            PictureBox logoBox = CreatePictureBox(logo, 450, 200, new Point(gameForm.Height / 2 - 180, 100));
             gameForm.Controls.Add(logoBox);
-            CreateButtons();
-            RenderButtons(buttons, gameForm);
+            CreateMenuButtons();
+            RenderButtons(this.MenuButtons, gameForm);
+        }
+
+        public void RenderChooseHeroScreen(GameForm gameForm)
+        {
+            CreateHeading("Choose Hero: ", gameForm.Width / 2 - 80, 40);
+            PictureBox warriorBox = CreatePictureBox(chooseWarrior, 190, 250, new Point(10, 110));
+            PictureBox femaleWarriorBox = CreatePictureBox(chooseFemaleWarrior, 190, 250, new Point(210, 110));
+            PictureBox magicianBox = CreatePictureBox(chooseMagician, 190, 250, new Point(410, 110));
+            gameForm.Controls.Add(warriorBox);
+            gameForm.Controls.Add(femaleWarriorBox);
+            gameForm.Controls.Add(magicianBox);
+            CreateHeroesButtons();
+            RenderButtons(this.HeroesButtons, gameForm);
         }
 
         public void RenderGameOverScreen()
         {
-            PictureBox gameOverBox = CreatePictureBox(gameOver, 512, 58, new Point(gameForm.Height / 2 - 100, 200));
+            PictureBox gameOverBox = CreatePictureBox(gameOver, 512, 58, new Point(gameForm.Height / 2 - 225, 150));
             gameForm.Controls.Add(gameOverBox);
+            CreateMenuButtons();
+            RenderButtons(menuButtons, gameForm);
         }
 
         private void RenderUnits(Units units)
@@ -634,19 +658,39 @@
         //    }
         //}
 
-        private void CreateButtons()
+        private Button CreateButton(string text, int top, int left)
         {
-            Button play = new Button();
-            play.Text = "Play";
-            play.Top = gameForm.Height / 2 + 80;
-            this.Buttons.Add(play);
+            Button button = new Button();
+            button.Text = text;
+            button.Top = top;
+            button.Left = left;
+            return button;
+        }
+
+        private void CreateMenuButtons()
+        {
+            Button play = CreateButton("Play", gameForm.Height / 2 + 20, gameForm.Width / 2 - 75);
+            this.MenuButtons.Add(play);
             play.Click += new EventHandler(gameForm.PlayClick);
 
-            Button exit = new Button();
-            exit.Text = "Exit";
-            exit.Top = gameForm.Height / 2 + 120;
-            this.Buttons.Add(exit);
+            Button exit = CreateButton("Exit", play.Top + 40, gameForm.Width / 2 - 75);
+            this.MenuButtons.Add(exit);
             exit.Click += new EventHandler(gameForm.ExitClick);
+        }
+
+        private void CreateHeroesButtons()
+        {
+            Button warriorButton = CreateButton("The Warrior", gameForm.Height - 150, 30);
+            this.HeroesButtons.Add(warriorButton);
+            warriorButton.Click += new EventHandler(gameForm.WarriorClick);
+
+            Button femaleWarriorButton = CreateButton("The Iron Lady", warriorButton.Top, warriorButton.Left + 200);
+            this.HeroesButtons.Add(femaleWarriorButton);
+            femaleWarriorButton.Click += new EventHandler(gameForm.FemaleWarriorClick);
+
+            Button magicianButton = CreateButton("The Wizard", warriorButton.Top, femaleWarriorButton.Left + 200);
+            this.HeroesButtons.Add(magicianButton);
+            magicianButton.Click += new EventHandler(gameForm.MagicianClick);
         }
 
         private void RenderButtons(List<Button> buttons, GameForm gameForm)
@@ -654,7 +698,6 @@
             foreach (var button in buttons)
             {
                 button.Size = ButtonSize;
-                button.Left = gameForm.Width / 2 - button.Width / 2;
                 button.Font = FontFamily;
                 button.TabStop = false;
                 button.FlatStyle = FlatStyle.Flat;
@@ -663,6 +706,16 @@
                 button.ForeColor = Gray;
                 gameForm.Controls.Add(button);
             }
+        }
+
+        private void CreateHeading(string text, int width, int height)
+        {
+            Graphics formGraphics = gameForm.CreateGraphics();
+            string drawString = text;
+            Font drawFont = HeadingFont;
+            SolidBrush drawBrush = new SolidBrush(System.Drawing.Color.Black);
+            StringFormat drawFormat = new StringFormat();
+            formGraphics.DrawString(drawString, drawFont, drawBrush, width, height, drawFormat);
         }
 
         public static PictureBox CreatePictureBox(Image image, int width,
