@@ -30,9 +30,9 @@
         private const string WarriorPath = "../../Resources/warrior70x70.png";
         private const string BackgroundPath = "../../Resources/grass70x70.png";
         private Color Yellow = Color.FromArgb(255, 231, 182, 54);
-        private Color Gray = Color.FromArgb(0, 61, 55, 55);
+        private Color Gray = Color.Gray;
         private Font FontFamily = new Font("Sans-serif", 12, FontStyle.Bold);
-        private Font HeadingFont = new Font("Sans-serif", 12, FontStyle.Bold); 
+        private Font HeadingFont = new Font("Sans-serif", 16, FontStyle.Bold); 
         private Size ButtonSize = new Size(150, 30);
 
         private Image bossImage;
@@ -256,8 +256,13 @@
             bossImage = Image.FromFile(BossPath);
             bushImage = Image.FromFile(BushPath);
             chestImage = Image.FromFile(ChestPath);
+            chooseFemaleWarrior = Image.FromFile(ChooseFemaleWarriorPath);
+            chooseMagician = Image.FromFile(ChooseMagicianPath);
+            chooseWarrior = Image.FromFile(ChooseWarriorPath);
             enemyImage = Image.FromFile(EnemyPath);
             femaleWarriorImage = Image.FromFile(FemaleWarriorPath);
+            gameOver = Image.FromFile(GameOverPath);
+            logo = Image.FromFile(LogoPath);
             magicianImage = Image.FromFile(MagicianPath);
             rockImage = Image.FromFile(RockPath);
             teleportImage = Image.FromFile(TeleportPath);

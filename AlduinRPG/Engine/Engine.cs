@@ -19,7 +19,7 @@
         private readonly RendererView renderer;
         private GameForm gameForm;
 
-        public Engine(GameForm gameForm, GameMap gameMap, IUserInput controller)
+        public Engine(GameForm gameForm, GameMap gameMap, IUserInput controller, HeroType hero)
         {
             this.SubscribeToUserInput(controller);
             this.gameMap = gameMap;
@@ -31,7 +31,7 @@
             this.chestCount = Engine.DefaultChestCount;
             this.teleportCount = Engine.DefaultTeleportCount;
 
-            this.Initialize(HeroType.Warrior);
+            this.Initialize(hero);
         }
 
         public void Run()

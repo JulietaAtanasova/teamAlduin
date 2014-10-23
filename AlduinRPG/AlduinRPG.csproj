@@ -131,6 +131,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="GameClassDiagram.cd" />
     <None Include="Resources\map-set\Pack 2 %282012%29\Dungeons\Thumbs.db" />
     <None Include="Resources\map-set\Pack 2 %282012%29\Elf Town\elf_town.psd" />

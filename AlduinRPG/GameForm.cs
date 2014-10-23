@@ -18,26 +18,27 @@ namespace AlduinRPG
 
         public void MagicianClick(object sender, EventArgs e)
         {
-            // TODO: Implement this method
-            throw new NotImplementedException();
+            this.Controls.Clear();
+            PlayGame(HeroType.Magician);
         }
 
         public void FemaleWarriorClick(object sender, EventArgs e)
         {
-            // TODO: Implement this method
-            throw new NotImplementedException();
+            this.Controls.Clear();
+            PlayGame(HeroType.FemaleWarrior);
         }
 
         public void WarriorClick(object sender, EventArgs e)
         {
-            // TODO: Implement this method
-            throw new NotImplementedException();
+            this.Controls.Clear();
+            PlayGame(HeroType.Warrior);
         }
 
         internal void PlayClick(object sender, EventArgs e)
         {
             this.Controls.Clear();
-            this.BackColor = System.Drawing.Color.Blue;
+            var render = new RendererView(this);
+            render.RenderChooseHeroScreen(this);
         }
 
         internal void ExitClick(object sender, EventArgs e)
@@ -52,9 +53,15 @@ namespace AlduinRPG
 
         private void GameForm_Load(object sender, EventArgs e)
         {
+            var render = new RendererView(this);
+            render.RenderStartScreen(this);
+        }
+
+        private void PlayGame(HeroType hero)
+        {
             GameMap gameMap = new GameMap(MapType.Small);
             IUserInput controller = new KeyboardController(this);
-            var engine = new Engine.Engine(this, gameMap, controller);
+            var engine = new Engine.Engine(this, gameMap, controller, hero);
             Timer timer = new Timer();
             timer.Interval = TimeInterval;
             timer.Enabled = true;
