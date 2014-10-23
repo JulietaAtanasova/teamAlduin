@@ -12,6 +12,7 @@ namespace AlduinRPG.Models
         private const int DefaultLives = 1;
         private const int DefaultRecoverySpeedHealth = 5;
         private const int DefaultrecoverySpeedMana = 1;
+
         public FemaleWarrior(Coordinates coordinates)
             : base(
             coordinates,

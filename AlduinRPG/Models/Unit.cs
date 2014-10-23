@@ -1,11 +1,9 @@
-﻿using AlduinRPG.Interfaces;
-
-namespace AlduinRPG.Models
+﻿namespace AlduinRPG.Models
 {
+    using Interfaces;
+
     public abstract class Unit : IUnit
     {
-        private Coordinates coordinates;
-
         protected Unit(Coordinates coordinates)
         {
             this.Coordinates = coordinates;

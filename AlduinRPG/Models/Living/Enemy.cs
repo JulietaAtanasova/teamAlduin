@@ -4,7 +4,12 @@
     {
         private EnemyType enemyType;
 
-        protected Enemy(EnemyType enemyType, Coordinates coordinates, int maxHealth, int attackStrength, int level)
+        protected Enemy(
+            EnemyType enemyType, 
+            Coordinates coordinates, 
+            int maxHealth, 
+            int attackStrength, 
+            int level)
             : base(coordinates, maxHealth, attackStrength, level)
         {
             this.EnemyType = enemyType;

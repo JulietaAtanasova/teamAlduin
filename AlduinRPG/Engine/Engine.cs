@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
-
-namespace AlduinRPG.Engine
+﻿namespace AlduinRPG.Engine
 {
     using System;
     using Interfaces;
@@ -10,27 +7,50 @@ namespace AlduinRPG.Engine
 
     public class Engine
     {
+        private const int DefaultChestCount = 2;
+        private const int DefaultTeleportCount = 1;
         private readonly int obstacleCount;
         private readonly int enemyCount;
+        private readonly int chestCount;
+        private readonly int teleportCount;
         private readonly GameMap gameMap;
         private readonly Random random = new Random();
-        private readonly Units units;
+        private readonly Units units = new Units();
         private readonly RendererView renderer;
         private GameForm gameForm;
 
         public Engine(GameForm gameForm, GameMap gameMap, IUserInput controller)
         {
-            this.gameMap = gameMap;
             this.SubscribeToUserInput(controller);
-            this.obstacleCount = gameMap.Width;
-            this.enemyCount = gameMap.Height;
-            this.units = new Units();
+            this.gameMap = gameMap;
             this.gameForm = gameForm;
+
             this.renderer = new RendererView(this.gameForm);
-            this.Initialize();
+            this.obstacleCount = this.gameMap.Width;
+            this.enemyCount = this.gameMap.Height;
+            this.chestCount = Engine.DefaultChestCount;
+            this.teleportCount = Engine.DefaultTeleportCount;
+
+            this.Initialize(HeroType.Warrior);
         }
 
-        public void SubscribeToUserInput(IUserInput userInterface)
+        public void Run()
+        {
+            this.ProcessMagicsTimeout();
+            this.MoveEnemies();
+            this.ProcessCollisionsEnemyHero();
+            this.TryResurrectHero();
+            if (this.GameOver())
+            {
+                this.renderer.RenderGameOverScreen();
+            }
+
+            this.units.Hero.Recover();
+            this.ResurrectDeadEnemies();
+            this.renderer.Render(this.units, this.gameMap);
+        }
+
+        private void SubscribeToUserInput(IUserInput userInterface)
         {
             userInterface.OnUpPressed += (sender, args) => this.TryMoveHero(Direction.Up);
             userInterface.OnDownPressed += (sender, args) => this.TryMoveHero(Direction.Down);
@@ -40,44 +60,14 @@ namespace AlduinRPG.Engine
             userInterface.OnSpellPressed += (sender, args) => this.HeroMagicAttack();
         }
 
-        public void Run()
-        {
-            this.ResurrectDeadEnemies();
-            this.ProcessMagics();
-            this.units.Hero.Recover();
-            this.MoveEnemies();
-            this.ProcessCollisionsEnemyHero();
-            if (this.GameOver())
-            {
-                // TODO - render gameover
-            }
-
-            this.renderer.Render(this.units, this.gameMap);
-        }
-
-        private void ProcessMagics()
-        {
-            var magicValues = new Magic[this.units.Magics.Values.Count];
-            this.units.Magics.Values.CopyTo(magicValues, 0);
-            foreach (var magic in magicValues)
-            {
-                if (magic.HasTimedOut)
-                {
-                    this.units.Magics.Remove(magic.Coordinates);
-                }
-                else
-                {
-                    magic.IncreaseCurrentTimeout();
-                }
-            }
-        }
-
-        private void Initialize()
+        private void Initialize(HeroType heroType)
         {
             this.CreateBorder();
-            this.AddHero(HeroType.Warrior);
-            this.AddObstacles();
-            this.AddEnemies();
+            this.AddHero(heroType);
+            this.AddUnits(this.obstacleCount, this.AddRandomObstacle);
+            this.AddUnits(this.enemyCount, this.AddEnemy);
+            this.AddUnits(this.chestCount, this.AddRandomChest);
+            this.AddUnits(this.teleportCount, this.AddTeleport);
         }
 
         private void CreateBorder()
@@ -92,6 +82,14 @@ namespace AlduinRPG.Engine
             {
                 this.AddRandomObstacle(new Coordinates(0, j));
                 this.AddRandomObstacle(new Coordinates(this.gameMap.Width - 1, j));
+            }
+        }
+
+        private void AddUnits(int counter, Action<Coordinates> addUnit)
+        {
+            for (int i = 0; i < counter; i++)
+            {
+                addUnit(this.GetRandomCoordinates());
             }
         }
 
@@ -114,28 +112,6 @@ namespace AlduinRPG.Engine
             }
         }
 
-        private void AddObstacles()
-        {
-            for (int i = 0; i < this.obstacleCount; i++)
-            {
-                this.AddRandomObstacle(this.GetRandomCoordinates());
-            }
-        }
-
-        private void AddEnemies()
-        {
-            for (int i = 0; i < this.enemyCount; i++)
-            {
-                this.AddEnemy(this.GetRandomCoordinates());
-            }
-        }
-
-        private void AddRandomObstacle(Coordinates coordinates)
-        {
-            var obstacleType = (ObstacleType)this.random.Next(0, 3);
-            this.units.Obstacles.Add(coordinates, new Obstacle(coordinates, obstacleType));
-        }
-
         private void AddEnemy(Coordinates coordinates)
         {
             EnemyType enemyType = (this.units.Hero.Level > 1) ? EnemyType.BossEnemy : EnemyType.WeakEnemy;
@@ -152,6 +128,23 @@ namespace AlduinRPG.Engine
             }
         }
 
+        private void AddRandomObstacle(Coordinates coordinates)
+        {
+            var obstacleType = (ObstacleType)this.random.Next(0, 3);
+            this.units.Obstacles.Add(coordinates, new Obstacle(coordinates, obstacleType));
+        }
+        
+        private void AddRandomChest(Coordinates coordinates)
+        {
+            var chestType = (ChestType)this.random.Next(0, 3);
+            this.units.Chests.Add(coordinates, new Chest(coordinates, chestType));
+        }
+
+        private void AddTeleport(Coordinates coordinates)
+        {
+            this.units.Teleports.Add(coordinates, new Teleportation(coordinates));
+        }
+
         private void ResurrectDeadEnemies()
         {
             Enemy[] enemyValues = new Enemy[this.units.Enemies.Values.Count];
@@ -161,11 +154,33 @@ namespace AlduinRPG.Engine
                 Enemy enemy = enemyValues[i];
                 if (enemy.IsAlive == false)
                 {
-                    Coordinates oldCoordinates = enemy.Coordinates;
-                    enemy.Resurrect(this.GetRandomCoordinates());
-                    Coordinates newCoordinates = enemy.Coordinates;
-                    this.units.Enemies.Remove(oldCoordinates);
-                    this.units.Enemies.Add(newCoordinates, enemy);
+                    this.units.Enemies.Remove(enemy.Coordinates);
+                    this.AddEnemy(this.GetRandomCoordinates());
+                }
+            }
+        }
+
+        private void TryResurrectHero()
+        {
+            if (!this.units.Hero.IsAlive && this.units.Hero.CurrentLives > 0)
+            {
+                this.units.Hero.Resurrect(this.GetRandomCoordinates());
+            }
+        }
+
+        private void ProcessMagicsTimeout()
+        {
+            var magicValues = new Magic[this.units.Magics.Values.Count];
+            this.units.Magics.Values.CopyTo(magicValues, 0);
+            foreach (var magic in magicValues)
+            {
+                if (magic.HasTimedOut)
+                {
+                    this.units.Magics.Remove(magic.Coordinates);
+                }
+                else
+                {
+                    magic.IncreaseCurrentTimeout();
                 }
             }
         }
@@ -228,7 +243,20 @@ namespace AlduinRPG.Engine
 
         private void TryMoveHero(Direction direction)
         {
-            if (this.CanMove(this.units.Hero.Coordinates, direction))
+            if (this.HasChest(this.units.Hero.Coordinates, direction))
+            {
+                this.units.Hero.Move(direction);
+                this.units.Hero.TakeChest(this.units.Chests[this.units.Hero.Coordinates]);
+                this.units.Chests.Remove(this.units.Hero.Coordinates);
+            }
+            else if (this.HasTeleport(this.units.Hero.Coordinates, direction))
+            {
+                this.units.Hero.Move(direction);
+                this.units.Hero.Teleport(this.units.Hero.Coordinates);
+                this.units.Teleports.Remove(this.units.Hero.Coordinates);
+                this.AddTeleport(this.GetRandomCoordinates());
+            }
+            else if (this.CanMove(this.units.Hero.Coordinates, direction))
             {
                 this.units.Hero.Move(direction);
             }
@@ -239,27 +267,23 @@ namespace AlduinRPG.Engine
             return this.units.Hero.CurrentLives == 0 && !this.units.Hero.IsAlive;
         }
 
+        private bool HasChest(Coordinates currentCoordinates, Direction direction)
+        {
+            Coordinates nextCoordinates = NextCoordinates(currentCoordinates, direction);
+            bool hasChest = this.units.Chests.ContainsKey(nextCoordinates);
+            return hasChest;
+        }
+
+        private bool HasTeleport(Coordinates currentCoordinates, Direction direction)
+        {
+            Coordinates nextCoordinates = NextCoordinates(currentCoordinates, direction);
+            bool hasTeleport = this.units.Teleports.ContainsKey(nextCoordinates);
+            return hasTeleport;
+        }
+
         private bool CanMove(Coordinates currentCoordinates, Direction direction)
         {
-            int nextX = currentCoordinates.X;
-            int nextY = currentCoordinates.Y;
-            switch (direction)
-            {
-                case Direction.Up:
-                    nextY--;
-                    break;
-                case Direction.Right:
-                    nextX++;
-                    break;
-                case Direction.Down:
-                    nextY++;
-                    break;
-                case Direction.Left:
-                    nextX--;
-                    break;
-            }
-
-            Coordinates nextCoordinates = new Coordinates(nextX, nextY);
+            Coordinates nextCoordinates = NextCoordinates(currentCoordinates, direction);
             bool canMove = !this.units.ContainsUnit(nextCoordinates);
             return canMove;
         }
@@ -295,6 +319,29 @@ namespace AlduinRPG.Engine
             }
 
             return this.GetRandomCoordinates();
+        }
+
+        private Coordinates NextCoordinates(Coordinates currentCoordinates, Direction direction)
+        {
+            int nextX = currentCoordinates.X;
+            int nextY = currentCoordinates.Y;
+            switch (direction)
+            {
+                case Direction.Up:
+                    nextY--;
+                    break;
+                case Direction.Right:
+                    nextX++;
+                    break;
+                case Direction.Down:
+                    nextY++;
+                    break;
+                case Direction.Left:
+                    nextX--;
+                    break;
+            }
+
+            return new Coordinates(nextX, nextY);
         }
 
         private Direction GetDirection(Coordinates currentCoordinates)

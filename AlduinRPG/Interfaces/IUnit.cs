@@ -1,7 +1,7 @@
-﻿using AlduinRPG.Models;
-
-namespace AlduinRPG.Interfaces
+﻿namespace AlduinRPG.Interfaces
 {
+    using Models;
+
     public interface IUnit
     {
         Coordinates Coordinates { get; }

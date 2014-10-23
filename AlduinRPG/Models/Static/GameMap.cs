@@ -4,8 +4,6 @@
     {
         private readonly int widthRatio;
         private readonly int heightRatio;
-        private int width;
-        private int height;
 
         public GameMap(MapType mapType, int widthRatio = 4, int heightRatio = 3)
         {
@@ -15,8 +13,8 @@
             this.Height = (int)mapType * this.heightRatio;
         }
 
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int Width { get; private set; }
 
+        public int Height { get; private set; }
     }
 }
