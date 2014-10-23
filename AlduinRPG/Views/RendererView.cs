@@ -53,6 +53,7 @@
 
         private readonly Coordinates ProgressBarOffset = new Coordinates(15, 30);
         private readonly Coordinates UnitOffset = new Coordinates(70, 70);
+        private const int TopBarOffset = 90;
 
         private List<Button> buttons = new List<Button>();
 
@@ -63,6 +64,18 @@
             RendererView.pictureBoxes = new List<PictureBox>();
             RendererView.progressBars = new List<ProgressBar>();
             this.unitsToRender = new List<Unit>();
+            RenderTopBackground();
+        }
+
+        private void RenderTopBackground()
+        {
+            var picBox = new PictureBox();
+            picBox.Size = new Size(630, 90);
+            picBox.Location = new Point(0, 0);
+            picBox.BackColor = Gray;
+            picBox.ForeColor = Gray;
+            this.gameForm.Controls.Add(picBox);
+            this.gameForm.Controls.SetChildIndex(picBox, 999);
         }
 
         public List<Button> Buttons
@@ -75,9 +88,95 @@
 
         public void Render(Units units, GameMap gameMap)
         {
+            var unitsToRender = getUnitsToRender(units);
             ClearScreen(units.Hero);
-            RenderFrame();
-            RenderUnits(units);
+            RenderUnits(unitsToRender);
+            RenderFrame(units.Hero);
+        }
+
+        private Units getUnitsToRender(Units units)
+        {
+            var unitsToReturn = new Units();
+
+            unitsToReturn.Hero = units.Hero;
+            unitsToReturn.Enemies = getEnemiesToRender(units.Enemies, units.Hero);
+            unitsToReturn.Teleports = getTeleportsToRender(units.Teleports, units.Hero);
+            unitsToReturn.Obstacles = getObstaclesToRender(units.Obstacles, units.Hero);
+            unitsToReturn.Chests = getChestsToRender(units.Chests, units.Hero);
+
+            return unitsToReturn;
+        }
+
+        private IDictionary<Coordinates, Chest> getChestsToRender(IDictionary<Coordinates, Chest> chests, Hero hero)
+        {
+            var returnDictionary = new Dictionary<Coordinates, Chest>();
+            foreach (var chest in chests)
+            {
+                if (IsInRange(chest.Key, hero.Coordinates))
+                {
+                    returnDictionary.Add(chest.Key, chest.Value);
+                }
+            }
+            return returnDictionary;
+        }
+
+        private IDictionary<Coordinates, Obstacle> getObstaclesToRender(IDictionary<Coordinates, Obstacle> obstacles, Hero hero)
+        {
+            var returnDictionary = new Dictionary<Coordinates, Obstacle>();
+            foreach (var obstacle in obstacles)
+            {
+                if (IsInRange(obstacle.Key, hero.Coordinates))
+                {
+                    returnDictionary.Add(obstacle.Key, obstacle.Value);
+                }
+                else
+                {
+                    RemoveObject(obstacle.Value);
+                }
+            }
+            return returnDictionary;
+        }
+
+        private IDictionary<Coordinates, Teleportation> getTeleportsToRender(IDictionary<Coordinates, Teleportation> teleports, Hero hero)
+        {
+            var returnDictionary = new Dictionary<Coordinates, Teleportation>();
+            foreach (var teleport in teleports)
+            {
+                if (IsInRange(teleport.Key, hero.Coordinates))
+                {
+                    returnDictionary.Add(teleport.Key, teleport.Value);
+                }
+            }
+            return returnDictionary;
+        }
+
+        private IDictionary<Coordinates, Enemy> getEnemiesToRender(IDictionary<Coordinates, Enemy> enemies, Hero hero)
+        {
+            var returnDictionary = new Dictionary<Coordinates, Enemy>();
+            foreach (var enemy in enemies)
+            {
+                if (IsInRange(enemy.Key, hero.Coordinates))
+                {
+                    returnDictionary.Add(enemy.Key, enemy.Value);
+                }
+            }
+            return returnDictionary;
+        }
+
+        private bool IsInRange(Coordinates objectCoordinates, Coordinates heroCoordinates)
+        {
+            bool collisionByX = objectCoordinates.X >= heroCoordinates.X - 4 &&
+                                objectCoordinates.X <= heroCoordinates.X + 4;
+            bool collisionByY = objectCoordinates.Y >= heroCoordinates.Y - 3 &&
+                                objectCoordinates.Y <= heroCoordinates.Y + 3;
+            if (collisionByX && collisionByY)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void ClearScreen(Hero hero)
@@ -105,10 +204,7 @@
                 }
             }
             //unitsToRender.RemoveAll(unitsToRemove.Contains);
-            foreach (var unit in unitsToRemove)
-            {
-                RemoveObject(unit);
-            }
+            unitsToRemove.ForEach(RemoveObject);
         }
 
         private void ChangeObjectPosition(Unit unit)
@@ -161,9 +257,67 @@
             backgroundImage = Image.FromFile(BackgroundPath);
         }
 
-        private void RenderFrame()
+        private void RenderFrame(Hero hero)
         {
             gameForm.BackgroundImage = backgroundImage;
+            RenderTopBar(hero);
+        }
+
+        private void RenderTopBar(Hero hero)
+        {
+            var currentHealth = hero.CurrentHealth;
+            var currentMana = hero.CurrentMana;
+            var currentExperience = hero.CurrentExperience;
+            var maxHealth = hero.MaxHealth;
+            var maxMana = hero.MaxMana;
+            var maxExperience = hero.MaxExperience;
+            Image heroImage;
+
+            switch (hero.HeroType)
+            {
+                case HeroType.FemaleWarrior:
+                    heroImage = femaleWarriorImage;
+                    break;
+                case HeroType.Magician:
+                    heroImage = magicianImage;
+                    break;
+                case HeroType.Warrior:
+                    heroImage = warriorImage;
+                    break;
+                default:
+                    throw new NotImplementedException("Hero view icon not implemented");
+            }
+
+            // Create hero icon
+
+            var heroIcon = new PictureBox();
+            heroIcon.Location = new Point(10, 10);
+            heroIcon.Size = new Size(70, 70);
+            heroIcon.Image = heroImage;
+            heroIcon.BackgroundImage = heroImage;
+
+            // Create health bar
+            var healthBar = new ProgressBar();
+            healthBar.BackColor = Color.Green;
+            healthBar.BackColor = Color.Green;
+            healthBar.Location = new Point(90, 10);
+            healthBar.Size = new Size(200, 30);
+            healthBar.Maximum = maxHealth;
+            healthBar.Value = currentHealth;
+
+            // Create mana bar
+            var manaBar = new ProgressBar();
+            manaBar.ForeColor = Color.DodgerBlue;
+            manaBar.BackColor = Color.DodgerBlue;
+            manaBar.Location = new Point(90, 10);
+            manaBar.Size = new Size(200, 30);
+            manaBar.Maximum = maxMana;
+            manaBar.Value = currentMana;
+
+            RenderTopBackground();
+            this.gameForm.Controls.Add(heroIcon);
+            this.gameForm.Controls.Add(healthBar);
+            this.gameForm.Controls.Add(manaBar);
         }
         public void RenderStartScreen(GameForm gameForm)
         {
@@ -172,7 +326,7 @@
             gameForm.Controls.Add(logoBox);
             CreateButtons();
             RenderButtons(buttons, gameForm);
-        } 
+        }
 
         public void RenderGameOverScreen()
         {
@@ -182,31 +336,111 @@
 
         private void RenderUnits(Units units)
         {
-            this.RenderHero(units.Hero);
-            this.RenderEnemies(units.Enemies, units.Hero);
-            this.RenderTeleports(units.Teleports, units.Hero);
-            this.RenderObstacles(units.Obstacles, units.Hero);
-            this.RenderChests(units.Chests, units.Hero);
+            renderHero(units.Hero);
+            renderChests(units.Chests, units.Hero);
+            renderObstacles(units.Obstacles, units.Hero);
+            renderTeleports(units.Teleports, units.Hero);
+            renderEnemies(units.Enemies, units.Hero);
         }
 
-        private bool toRender(Coordinates heroCoordinates, Coordinates unitCoordinates)
+        private void renderEnemies(IDictionary<Coordinates, Enemy> enemies, Hero hero)
         {
-            // todo: constants
-            bool collisionByX = unitCoordinates.X >= heroCoordinates.X - 4 &&
-                                unitCoordinates.X <= heroCoordinates.X + 4;
-            bool collisionByY = unitCoordinates.Y >= heroCoordinates.Y - 3 &&
-                                unitCoordinates.Y <= heroCoordinates.Y + 3;
-            if (collisionByX && collisionByY)
+            Coordinates heroCoordinates = hero.Coordinates;
+
+            foreach (var enemy in enemies)
             {
-                return true;
-            }
-            else
-            {
-                return false;
+                if (PictureBoxExists(enemy.Value))
+                {
+                    RedrawObject(enemy.Value, true);
+                }
+                else
+                {
+                    Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, enemy.Key);
+
+                    switch (enemy.Value.EnemyType)
+                    {
+                        case EnemyType.BossEnemy:
+                            this.AddObject(bossImage, relativeCoordinates, enemy.Value, UnitOffset, true);
+                            break;
+                        case EnemyType.WeakEnemy:
+                            this.AddObject(enemyImage, relativeCoordinates, enemy.Value, UnitOffset, true);
+                            break;
+                        default:
+                            throw new NotImplementedException("Enemy view not implemented.");
+                    }
+                }
             }
         }
 
-        private void RenderHero(Hero hero)
+        private void renderTeleports(IDictionary<Coordinates, Teleportation> teleports, Hero hero)
+        {
+            Coordinates heroCoordinates = hero.Coordinates;
+
+            foreach (var teleport in teleports)
+            {
+                if (PictureBoxExists(teleport.Value))
+                {
+                    RedrawObject(teleport.Value);
+                }
+                else
+                {
+                    Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, teleport.Key);
+                    this.AddObject(teleportImage, relativeCoordinates, teleport.Value, UnitOffset);
+                }
+            }
+        }
+
+        private void renderObstacles(IDictionary<Coordinates, Obstacle> obstacles, Hero hero)
+        {
+            Coordinates heroCoordinates = hero.Coordinates;
+
+            foreach (var obstacle in obstacles)
+            {
+                Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, obstacle.Key);
+                if (PictureBoxExists(obstacle.Value))
+                {
+                    RedrawObject(obstacle.Value);
+                }
+                else
+                {
+                    switch (obstacle.Value.ObstacleType)
+                    {
+                        case ObstacleType.Bush:
+                            this.AddObject(bushImage, relativeCoordinates, obstacle.Value, UnitOffset);
+                            break;
+                        case ObstacleType.Rock:
+                            this.AddObject(rockImage, relativeCoordinates, obstacle.Value, UnitOffset);
+                            break;
+                        case ObstacleType.Tree:
+                            this.AddObject(treeImage, relativeCoordinates, obstacle.Value, UnitOffset);
+                            break;
+                        default:
+                            throw new NotImplementedException("Obstacle view not implemented.");
+                    }
+                }
+            }
+        }
+
+        private void renderChests(IDictionary<Coordinates, Chest> chests, Hero hero)
+        {
+            Coordinates heroCoordinates = hero.Coordinates;
+
+            foreach (var chest in chests)
+            {
+                if (PictureBoxExists(chest.Value))
+                {
+                    RedrawObject(chest.Value);
+                    continue;
+                }
+                else
+                {
+                    Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, chest.Key);
+                    this.AddObject(chestImage, relativeCoordinates, chest.Value, UnitOffset);
+                }
+            }
+        }
+
+        private void renderHero(Hero hero)
         {
             Coordinates centerPointCoordinates = new Coordinates(4, 3);
             switch (hero.HeroType)
@@ -226,102 +460,179 @@
             }
         }
 
-        private void RenderEnemies(IDictionary<Coordinates, Enemy> enemies, Hero hero)
+        private bool toRender(Coordinates heroCoordinates, Coordinates unitCoordinates)
         {
-            Coordinates heroCoordinates = hero.Coordinates;
-            foreach (var enemy in enemies)
+            // todo: constants
+            bool collisionByX = unitCoordinates.X >= heroCoordinates.X - 4 &&
+                                unitCoordinates.X <= heroCoordinates.X + 4;
+            bool collisionByY = unitCoordinates.Y >= heroCoordinates.Y - 3 &&
+                                unitCoordinates.Y <= heroCoordinates.Y + 3;
+            if (collisionByX && collisionByY)
             {
-                if (toRender(heroCoordinates, enemy.Key))
-                {
-                    Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, enemy.Key);
-                    RenderObject.RenderProgressBar(gameForm, enemy.Value.MaxHealth, enemy.Value.CurrentHealth, enemy.Key,
-                        Color.Green, ProgressBarOffset);
-                    if (PictureBoxExists(enemy.Value))
-                    {
-                        RedrawObject(enemy.Value);
-                        continue;
-                    }
-                    switch (enemy.Value.EnemyType)
-                    {
-                        case EnemyType.BossEnemy:
-                            this.AddObject(bossImage, relativeCoordinates, enemy.Value, UnitOffset);
-                            break;
-                        case EnemyType.WeakEnemy:
-                            this.AddObject(enemyImage, relativeCoordinates, enemy.Value, UnitOffset);
-                            break;
-                        default:
-                            throw new NotImplementedException("Enemy view not implemented.");
-                    }
-                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        private void RenderTeleports(IDictionary<Coordinates, Teleportation> teleports, Hero hero)
-        {
-            Coordinates heroCoordinates = hero.Coordinates;
-            foreach (var teleport in teleports)
-            {
-                if (toRender(hero.Coordinates, teleport.Key))
-                {
-                    if (PictureBoxExists(teleport.Value))
-                    {
-                        RedrawObject(teleport.Value);
-                        continue;
-                    }
-                    Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, teleport.Key);
-                    this.AddObject(teleportImage, relativeCoordinates, teleport.Value, UnitOffset);
-                }
-            }
-        }
+        //private void RenderHero(Hero hero)
+        //{
+        //    Coordinates centerPointCoordinates = new Coordinates(4, 3);
+        //    switch (hero.HeroType)
+        //    {
+        //        case HeroType.FemaleWarrior:
+        //            this.AddObject(femaleWarriorImage, centerPointCoordinates, hero, UnitOffset);
+        //            break;
+        //        case HeroType.Warrior:
+        //            this.AddObject(warriorImage, centerPointCoordinates, hero, UnitOffset);
+        //            break;
+        //        case HeroType.Magician:
+        //            //CreatePictureBoxForUnit(hero, femaleWarriorImage, centerPointCoordinates, UnitOffset);
+        //            this.AddObject(magicianImage, centerPointCoordinates, hero, UnitOffset);
+        //            break;
+        //        default:
+        //            throw new NotImplementedException("Hero view not implemented.");
+        //    }
+        //}
 
-        private void RenderObstacles(IDictionary<Coordinates, Obstacle> obstacles, Hero hero)
-        {
-            Coordinates heroCoordinates = hero.Coordinates;
-            foreach (var obstacle in obstacles)
-            {
-                if (toRender(hero.Coordinates, obstacle.Key))
-                {
-                    Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, obstacle.Key);
-                    if (PictureBoxExists(obstacle.Value))
-                    {
-                        RedrawObject(obstacle.Value);
-                        continue;
-                    }
-                    switch (obstacle.Value.ObstacleType)
-                    {
-                        case ObstacleType.Bush:
-                            this.AddObject(bushImage, relativeCoordinates, obstacle.Value, UnitOffset);
-                            break;
-                        case ObstacleType.Rock:
-                            this.AddObject(rockImage, relativeCoordinates, obstacle.Value, UnitOffset);
-                            break;
-                        case ObstacleType.Tree:
-                            this.AddObject(treeImage, relativeCoordinates, obstacle.Value, UnitOffset);
-                            break;
-                        default:
-                            throw new NotImplementedException("Obstacle view not implemented.");
-                    }
-                }
-            }
-        }
+        //private void RenderEnemies(IDictionary<Coordinates, Enemy> enemies, Hero hero)
+        //{
+        //    Coordinates heroCoordinates = hero.Coordinates;
+        //    foreach (var enemy in enemies)
+        //    {
+        //        if (toRender(heroCoordinates, enemy.Key))
+        //        {
+        //            if (PictureBoxExists(enemy.Value))
+        //            {
+        //                RedrawObject(enemy.Value, true);
+        //            }
+        //            else
+        //            {
+        //                Coordinates relativeCoordinates =
+        //                    CalculateRelativeCoordinates(heroCoordinates, enemy.Key);
+        //                RenderObject.RenderProgressBar(gameForm, enemy.Value.MaxHealth,
+        //                    enemy.Value.CurrentHealth, enemy.Key,
+        //                    Color.Green, ProgressBarOffset);
 
-        private void RenderChests(IDictionary<Coordinates, Chest> chests, Hero hero)
-        {
-            Coordinates heroCoordinates = hero.Coordinates;
-            foreach (var chest in chests)
-            {
-                if (toRender(hero.Coordinates, chest.Key))
-                {
-                    if (PictureBoxExists(chest.Value))
-                    {
-                        RedrawObject(chest.Value);
-                        continue;
-                    }
-                    Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, chest.Key);
-                    this.AddObject(chestImage, relativeCoordinates, chest.Value, UnitOffset);
-                }
-            }
-        }
+        //                switch (enemy.Value.EnemyType)
+        //                {
+        //                    case EnemyType.BossEnemy:
+        //                        this.AddObject(bossImage, relativeCoordinates, enemy.Value, UnitOffset, true);
+        //                        break;
+        //                    case EnemyType.WeakEnemy:
+        //                        this.AddObject(enemyImage, relativeCoordinates, enemy.Value, UnitOffset, true);
+        //                        break;
+        //                    default:
+        //                        throw new NotImplementedException("Enemy view not implemented.");
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (PictureBoxExists(enemy.Value))
+        //            {
+        //                RemoveObject(enemy.Value);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void RenderTeleports(IDictionary<Coordinates, Teleportation> teleports, Hero hero)
+        //{
+        //    Coordinates heroCoordinates = hero.Coordinates;
+        //    foreach (var teleport in teleports)
+        //    {
+        //        if (toRender(hero.Coordinates, teleport.Key))
+        //        {
+        //            if (PictureBoxExists(teleport.Value))
+        //            {
+        //                RedrawObject(teleport.Value);
+        //            }
+        //            else
+        //            {
+        //                Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, teleport.Key);
+        //                this.AddObject(teleportImage, relativeCoordinates, teleport.Value, UnitOffset);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (PictureBoxExists(teleport.Value))
+        //            {
+        //                RemoveObject(teleport.Value);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void RenderObstacles(IDictionary<Coordinates, Obstacle> obstacles, Hero hero)
+        //{
+        //    Coordinates heroCoordinates = hero.Coordinates;
+        //    foreach (var obstacle in obstacles)
+        //    {
+        //        if (toRender(hero.Coordinates, obstacle.Key))
+        //        {
+        //            if (PictureBoxExists(obstacle.Value))
+        //            {
+        //                RedrawObject(obstacle.Value);
+        //            }
+        //            else
+        //            {
+        //                Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, obstacle.Key);
+
+        //                switch (obstacle.Value.ObstacleType)
+        //                {
+        //                    case ObstacleType.Bush:
+        //                        this.AddObject(bushImage, relativeCoordinates, obstacle.Value, UnitOffset);
+        //                        break;
+        //                    case ObstacleType.Rock:
+        //                        this.AddObject(rockImage, relativeCoordinates, obstacle.Value, UnitOffset);
+        //                        break;
+        //                    case ObstacleType.Tree:
+        //                        this.AddObject(treeImage, relativeCoordinates, obstacle.Value, UnitOffset);
+        //                        break;
+        //                    default:
+        //                        throw new NotImplementedException("Obstacle view not implemented.");
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (PictureBoxExists(obstacle.Value))
+        //            {
+        //                RemoveObject(obstacle.Value);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void RenderChests(IDictionary<Coordinates, Chest> chests, Hero hero)
+        //{
+        //    Coordinates heroCoordinates = hero.Coordinates;
+        //    foreach (var chest in chests)
+        //    {
+        //        if (toRender(hero.Coordinates, chest.Key))
+        //        {
+        //            if (PictureBoxExists(chest.Value))
+        //            {
+        //                RedrawObject(chest.Value);
+        //            }
+        //            else
+        //            {
+        //                Coordinates relativeCoordinates = CalculateRelativeCoordinates(heroCoordinates, chest.Key);
+        //                this.AddObject(chestImage, relativeCoordinates, chest.Value, UnitOffset);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (PictureBoxExists(chest.Value))
+        //            {
+        //                RemoveObject(chest.Value);
+        //            }
+        //        }
+        //    }
+        //}
 
         private void CreateButtons()
         {
@@ -364,10 +675,11 @@
             return box;
         }
 
-        public void AddObject(Image image, Coordinates coordinates, Unit renderableObject, Coordinates offset)
+        public void AddObject(Image image, Coordinates coordinates,
+            Unit renderableObject, Coordinates offset, bool addProgressBar = false)
         {
             RenderObject.RenderImage(this.gameForm, image, coordinates, renderableObject, offset);
-            if (renderableObject is LivingUnit)
+            if (addProgressBar)
             {
                 this.CreateProgressBar(renderableObject as LivingUnit);
             }
@@ -389,15 +701,15 @@
             }
         }
 
-        public void RedrawObject(Unit objectToBeRedrawn)
+        public void RedrawObject(Unit objectToBeRedrawn, bool hasProgressBar = false)
         {
             var newCoordinates = new Point(objectToBeRedrawn.Coordinates.X * 70, objectToBeRedrawn.Coordinates.Y * 70);
             var picBox = GetPictureBoxByObject(objectToBeRedrawn);
             picBox.Location = newCoordinates;
 
-            if (objectToBeRedrawn is LivingUnit)
+            if (hasProgressBar)
             {
-                var unit = objectToBeRedrawn as LivingUnit;
+                var unit = objectToBeRedrawn as Enemy;
                 var progressBar = GetProgressBarByObject(unit);
                 this.SetProgressBarLocation(unit, progressBar);
                 progressBar.Value = unit.CurrentHealth;
@@ -425,13 +737,13 @@
 
         private void SetProgressBarLocation(LivingUnit unit, ProgressBar progressBar)
         {
-            progressBar.Location = new Point(unit.Coordinates.X * 70 - ProgressBarOffset.X, unit.Coordinates.Y * 70 - ProgressBarOffset.Y);
+            progressBar.Location = new Point(unit.Coordinates.X * 70, unit.Coordinates.Y * 70 - 15);
         }
 
         private void CreateProgressBar(LivingUnit unit)
         {
             var progressBar = new ProgressBar();
-            progressBar.Size = new Size(ProgressBarOffset.X, ProgressBarOffset.Y);
+            progressBar.Size = new Size(70, 15);
             this.SetProgressBarLocation(unit, progressBar);
             progressBar.Maximum = unit.MaxHealth;
             progressBar.Value = unit.CurrentHealth;

@@ -9,7 +9,7 @@ namespace AlduinRPG
 
     public partial class GameForm : Form
     {
-        public const int TimeInterval = 1000;
+        public const int TimeInterval = 500;
 
         public GameForm()
         {

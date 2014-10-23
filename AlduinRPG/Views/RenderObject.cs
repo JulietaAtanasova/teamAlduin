@@ -24,7 +24,7 @@
                 picBox.BackColor = Color.Transparent;
                 picBox.Image = image;
                 picBox.Parent = gameForm;
-                picBox.Location = new Point(imageCoordinatesWithOffset.X, imageCoordinatesWithOffset.Y);
+                picBox.Location = new Point(imageCoordinatesWithOffset.X, 70 + imageCoordinatesWithOffset.Y);
                 picBox.Size = new Size(ImageSize, ImageSize);
                 picBox.Tag = unit;
                 gameForm.Controls.Add(picBox);
